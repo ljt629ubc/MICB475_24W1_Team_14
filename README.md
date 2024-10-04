@@ -1,2 +1,6 @@
-# Project2_micb475_team14
- Project 2 Repo for Team 14
+#MICB475_Team_14
+
+##Meeting Agenda
+
+#October 4th, 2024
+
