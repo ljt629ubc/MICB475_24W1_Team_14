@@ -1,6 +1,6 @@
-#MICB475_Team_14
+# MICB475_Team_14
 
-##Meeting Agenda
+## Meeting Agenda
 
-#October 4th, 2024
+### October 4th, 2024
 
