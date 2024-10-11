@@ -79,4 +79,24 @@ Options:
 - Try to understand how the experiments worked.
 - What variable regions did they sequence: is it single end or double end?
 - Find common columns that we need to combine
-- We need to make new metadata file 
+- We need to make new metadata file
+
+  
+
+## October 11th, 2024
+
+### Agenda
+1. Team Proposal Assignments:
+  - Proposed Title
+  - Introduction and Background
+  - Research Objectives
+  - Experimental Aims and Rationale 
+  - Proposed Approach
+  - Overview Flowchart
+  - Weekly Timeframe 
+  - Dataset Overview 
+  - Participation Report 
+  - References
+2. Finalize reseach question
+3. Discuss experimental aims and proposed approach
+4. Next steps
