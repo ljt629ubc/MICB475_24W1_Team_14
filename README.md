@@ -87,16 +87,63 @@ Options:
 
 ### Agenda
 1. Team Proposal Assignments:
-  - Proposed Title
-  - Introduction and Background
+  - Proposed Title 
+  - Introduction and Background: 
   - Research Objectives
   - Experimental Aims and Rationale 
-  - Proposed Approach
+  - Proposed Approach: Everyone
   - Overview Flowchart
   - Weekly Timeframe 
   - Dataset Overview 
-  - Participation Report 
+  - Participation Report: Everyone  
   - References
 2. Finalize reseach question
 3. Discuss experimental aims and proposed approach
 4. Next steps
+
+##Meeting Notes
+
+Research Question: 
+   - Something like "How is functional diversity affected by radiation?"
+       - Does not need to be too detailed 
+   - Comparing function of microbes before and after radiation
+   - Compare at different time points
+   - Fecal vs Gut microbiome?
+      - Use fecal microbiome as that's what was collected
+   - Need to complete Qiime processing for team proposal
+
+Infering functional pathways using 16s rRNA?
+   - Predciting based on what species are present
+   - Use picrust
+   - One aim: Taxonomic diversity at different time points
+   - Aim two: Functional diversity at different time points
+
+Proposed Title:    
+   - Use words such as "understanding", "exploring"
+   - Statement is better than a question
+     -  Gives more meaning to what we find
+
+- Gantt chart for timeline
+  
+- Look at papers that did similar things
+   - Check paper that used a labratory simulation
+   - Get ideas for methods based on other papers
+
+Propsal Tips:
+- Tying our predictions to what it means biologically
+- Fully explaining knowledge gap
+- No absolute statements
+- Mention relevant details from metadata
+   - Mice given same diet, all females, etc
+
+Methods: 
+- Remove mice from dataset that were drug treated???
+    - Need to see how much data we would be left with
+ 
+- Use Zotero for references
+
+Introduction/Background: 
+ - Need to find previous research to give a rationale to our project
+
+
+
