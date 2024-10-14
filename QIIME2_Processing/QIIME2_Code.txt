@@ -1,0 +1,14 @@
+#Maka a new directory on the shared team server
+mkdir space_radiation_data
+
+#Use manifest.tsv file to improt and demultiplex the radiation data
+qiime tools import \
+  --type "SampleData[PairedEndSequencesWithQuality]" \
+  --input-format PairedEndFastqManifestPhred33V2 \
+  --input-path /mnt/datasets/project_2/nasa/radiation_space_manifest.tsv \
+  --output-path ./radiation_demux_seqs_mg.qza
+
+#Viusualize the demultiplexed file 
+qiime demux summarize \
+  --i-data radiation_demux_seqs_mg.qza \
+  --o-visualization radiation_demux_seqs_mg.qzv
