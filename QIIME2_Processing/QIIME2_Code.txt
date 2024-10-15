@@ -27,3 +27,8 @@ qiime dada2 denoise-paired \
   --o-representative-sequences radiation_rep-seqs_mg.qza \
   --o-table radiation_table_mg.qza \
   --o-denoising-stats radiation_stats_mg.qza
+
+#Visualize rep-seqs and table qza files
+qiime feature-table tabulate-seqs \
+  --i-data radiation_rep-seqs_mg.qza \
+  --o-visualization radiation_rep-seqs_mg.qzv
