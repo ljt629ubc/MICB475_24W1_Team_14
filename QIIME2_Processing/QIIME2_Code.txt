@@ -1,7 +1,7 @@
 #Maka a new directory on the shared team server
 mkdir space_radiation_data
 
-#Use manifest.tsv file to improt and demultiplex the radiation data
+#Use manifest.tsv file to import and demultiplex the radiation data
 qiime tools import \
   --type "SampleData[PairedEndSequencesWithQuality]" \
   --input-format PairedEndFastqManifestPhred33V2 \
@@ -12,3 +12,18 @@ qiime tools import \
 qiime demux summarize \
   --i-data radiation_demux_seqs_mg.qza \
   --o-visualization radiation_demux_seqs_mg.qzv
+
+#Export radiation_demux_seqs_mg.qzv to loacl device for visualization
+#Determine truncation length by visualizing radiation_demux_seqs_mg.qzv on QIIME2 View:
+#Truncation selected: No truncation, keep all 153 bases 
+
+# Denoising/Clustering with Dada2 
+qiime dada2 denoise-paired \
+  --i-demultiplexed-seqs radiation_demux_seqs_mg.qza \
+  --p-trim-left-f 0 \
+  --p-trim-left-r 0 \
+  --p-trunc-len-f 153 \
+  --p-trunc-len-r 153 \
+  --o-representative-sequences radiation_rep-seqs_mg.qza \
+  --o-table radiation_table_mg.qza \
+  --o-denoising-stats radiation_stats_mg.qza
