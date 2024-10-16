@@ -28,7 +28,23 @@ qiime dada2 denoise-paired \
   --o-table radiation_table_mg.qza \
   --o-denoising-stats radiation_stats_mg.qza
 
-#Visualize rep-seqs and table qza files
+#Visualize radiation_rep-seqs_mg.qza file
 qiime feature-table tabulate-seqs \
   --i-data radiation_rep-seqs_mg.qza \
   --o-visualization radiation_rep-seqs_mg.qzv
+
+#The radiation_metadata_space.txt file has multiple columns with the same name, to fix this run the code below in R after transferring the metadata 
+#file onto local device:
+meta <- read.delim(file = "radiation_metadata_space.txt", sep = "\t") #R automatically changes any columns with the same name 
+colnames(meta)[colnames(meta) == 'sample.id'] <- 'sample-id' #R automatically changes the name of the first column to "sample.id", however the qiime 
+# code is not compatible with this column name so it must be changed back 
+write.table(meta, file="space_environment_metadata1.txt", sep="\t", quote=FALSE, row.names = FALSE)
+
+#Transfer the updated metadata file onto the server under space_radiation_data directory
+#Visualize radiation_table_mg.qza file using updated metadata file
+qiime feature-table summarize \
+  --i-table radiation_table_mg.qza \
+  --o-visualization radiation_table_mg.qzv \
+  --m-sample-metadata-file space_environment_metadata.txt
+
+
