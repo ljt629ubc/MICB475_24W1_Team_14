@@ -2,13 +2,12 @@
 Overview of Project 2 for Team 14 - Khadija, Michael, Jackson, Wendy, Jacob
 
 Meeting time is each Friday at 3:45pm
-# Meeting Agenda
-
 ## Table of Contents
    * [Meeting 1 - October 4th](#October-4th,-2024)
    * [Meeting 2 - October 11th](#October-11th,-2024)
    * [Meeting 3 - October 18th](#October-18th,-2024)
 
+# Meeting Agenda
 
 ## October 4th, 2024
 
