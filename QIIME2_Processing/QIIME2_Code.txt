@@ -100,7 +100,7 @@ qiime feature-classifier extract-reads \
   --p-trunc-len 153 \
   --o-reads ref-seqs-trimmed_mg.qza
 
-#Create pylogenetic tree
+#Create phylogenetic tree
 qiime phylogeny align-to-tree-mafft-fasttree \
   --i-sequences radiation_rep-seqs_mg_UPDATED.qza \
   --o-alignment aligned-radiation_rep-seqs_mg_UPDATED.qza \
