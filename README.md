@@ -1,6 +1,14 @@
 # MICB475_Team_14
+Overview of Project 2 for Team 14 - Khadija, Michael, Jackson, Wendy, Jacob
 
+Meeting time is each Friday at 3:45pm
 # Meeting Agenda
+
+## Table of Contents
+   * [Meeting 1 - October 4th](#October-4th,-2024)
+   * [Meeting 2 - October 11th](#October-11th,-2024)
+   * [Meeting 3 - October 18th](#October-18th,-2024)
+
 
 ## October 4th, 2024
 
@@ -147,3 +155,19 @@ Introduction/Background:
 
 
 
+## October 18th, 2024
+
+### Agenda
+
+1. Experimental Aims and Rationals
+      - How to seperate our goals into more cohesive pieces
+           - Aim 1: Assess changes in microbial diversity over time in fecal samples from mice exposed to the space environment aboard the ISS compared to control mice on Earth.
+           - Aim 2: Investigate changes in microbial functions over time in fecal samples from mice exposed to the space environment aboard the ISS compared to control mice on Earth.
+           - Aim 3: Determine if there is a relationship/association between space exposure and the microbial gut composition
+2. Research Objective
+      - We couldn't find if microgravity was controlled for in any way
+      - So focus on Space environment in place of radiation exposure
+3. Generalized Review of Project Proposal
+4. Next Steps
+
+### Meeting Notes
