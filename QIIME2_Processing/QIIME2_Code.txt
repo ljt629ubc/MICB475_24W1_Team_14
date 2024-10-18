@@ -99,3 +99,19 @@ qiime feature-classifier extract-reads \
   --p-r-primer GGACTACNVGGGTWTCTAAT \
   --p-trunc-len 153 \
   --o-reads ref-seqs-trimmed_mg.qza
+
+#Create pylogenetic tree
+qiime phylogeny align-to-tree-mafft-fasttree \
+  --i-sequences radiation_rep-seqs_mg_UPDATED.qza \
+  --o-alignment aligned-radiation_rep-seqs_mg_UPDATED.qza \
+  --o-masked-alignment masked-aligned_radiation_rep-seqs_mg_UPDATED.qza \
+  --o-tree unrooted-tree_radiation_UPDATED.qza \
+  --o-rooted-tree rooted-tree_radiation_UPDATED.qza \
+
+#Alpha rarefaction check set to max read depth of 95039
+  qiime diversity alpha-rarefaction \
+  --i-table radiation_table_mg_UPDATED.qza \
+  --i-phylogeny rooted-tree_radiation_UPDATED.qza \
+  --p-max-depth 95039 \
+  --m-metadata-file /data/space_radiation_data/space_environment_metadata.txt\
+  --o-visualization alpha-rarefaction_radiation_UPDATED.qzv
