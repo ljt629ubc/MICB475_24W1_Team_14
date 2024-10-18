@@ -13,11 +13,11 @@ qiime demux summarize \
   --i-data radiation_demux_seqs_mg.qza \
   --o-visualization radiation_demux_seqs_mg.qzv
 
-#Export radiation_demux_seqs_mg.qzv to loacl device for visualization
+#Export radiation_demux_seqs_mg.qzv to local device for visualization
 #Determine truncation length by visualizing radiation_demux_seqs_mg.qzv on QIIME2 View:
 #Truncation selected: No truncation, keep all 153 bases 
 
-# Denoising/Clustering with Dada2 
+#Denoising/Clustering with Dada2 
 qiime dada2 denoise-paired \
   --i-demultiplexed-seqs radiation_demux_seqs_mg.qza \
   --p-trim-left-f 0 \
@@ -47,4 +47,47 @@ qiime feature-table summarize \
   --o-visualization radiation_table_mg.qzv \
   --m-sample-metadata-file space_environment_metadata.txt
 
+#Determined the fastq files in manifest file were not matched to their proper sample IDs
+#Corrected manifest file and re-ran demultiplexing and denoising 
 
+#Maka a new directory on the shared team server
+mkdir space_environment_data
+
+#Use manifest.tsv file to import and demultiplex the radiation data, New demux file named radiation_demux_seqs_mg_UPDATED.qza
+qiime tools import \
+  --type "SampleData[PairedEndSequencesWithQuality]" \
+  --input-format PairedEndFastqManifestPhred33V2 \
+  --input-path /mnt/datasets/project_2/nasa/radiation_space_manifest.tsv \
+  --output-path ./radiation_demux_seqs_mg_UPDATED.qza
+
+#Viusualize the new demultiplexed file 
+qiime demux summarize \
+  --i-data radiation_demux_seqs_mg_UPDATED.qza \
+  --o-visualization radiation_demux_seqs_mg_UPDATED.qzv
+
+#Export radiation_demux_seqs_mg_UPDATED.qzv to local device for visualization
+#Determine truncation length by visualizing radiation_demux_seqs_mg_UPDATED.qzv on QIIME2 View:
+#Truncation selected: No truncation, keep all 153 bases 
+
+#Denoising/Clustering with Dada2 
+qiime dada2 denoise-paired \
+  --i-demultiplexed-seqs radiation_demux_seqs_mg_UPDATED.qza \
+  --p-trim-left-f 0 \
+  --p-trim-left-r 0 \
+  --p-trunc-len-f 153 \
+  --p-trunc-len-r 153 \
+  --o-representative-sequences radiation_rep-seqs_mg_UPDATED.qza \
+  --o-table radiation_table_mg_UPDATED.qza \
+  --o-denoising-stats radiation_stats_mg_UPDATED.qza
+
+#Visualize radiation_rep-seqs_mg_UPDATED.qza file
+qiime feature-table tabulate-seqs \
+  --i-data radiation_rep-seqs_mg_UPDATED.qza \
+  --o-visualization radiation_rep-seqs_mg_UPDATED.qzv
+
+#Visualize radiation_table_mg_UPDATED.qza file using updated metadata file
+#This metadata file is the updated file that was generated during the first time the feature-table was visualized (see line 36-43)
+qiime feature-table summarize \
+  --i-table radiation_table_mg_UPDATED.qza \
+  --o-visualization radiation_table_mg_UPDATED.qzv \
+  --m-sample-metadata-file /data/space_radiation_data/space_environment_metadata.txt
