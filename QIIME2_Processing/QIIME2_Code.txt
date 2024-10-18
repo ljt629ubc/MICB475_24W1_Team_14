@@ -112,6 +112,6 @@ qiime phylogeny align-to-tree-mafft-fasttree \
   qiime diversity alpha-rarefaction \
   --i-table radiation_table_mg_UPDATED.qza \
   --i-phylogeny rooted-tree_radiation_UPDATED.qza \
-  --p-max-depth 95039 \
+  --p-max-depth 20628 \
   --m-metadata-file /data/space_radiation_data/space_environment_metadata.txt\
   --o-visualization alpha-rarefaction_radiation_UPDATED.qzv
