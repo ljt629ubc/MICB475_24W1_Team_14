@@ -170,3 +170,49 @@ Introduction/Background:
 4. Next Steps
 
 ### Meeting Notes
+
+Mistake in wrong metadata file column for OSD-249, discussed and resolved.
+
+Confusion about how microgravity was controlled for in study.
+The 30 days and 60 days data was collected differently, so we had concerns about direct comparison of these time points. 
+- can compare 0 to 30 and 0 to 60.
+- recognize data collection difference as a limitation
+- tease part pathways in functional analysis for space (60 days) vs brought back to earth (30 days) e.g which pathways will be enriched --> more difficult to compose hypothesis for this
+- taxonomic diversity hypothesis will be easier
+
+Point of basal control?
+
+Discussed limitations of functional analysis and what conclusions can actually be drawn from that.
+
+Introduction
+- Should we talk about generalized functions of microbiome: current introduction is sufficent for expected audience
+
+Studies used as reference
+- Mice irradiated in a lab setting. This is the main rationale for investigating mice in space.
+- Cite more studies that link microbiome changes with space/radiation.
+
+
+Create a classifier which predicts whether mice are in space or not, using ISA.
+- Look at most robust variables for this.
+- Relevant? We aren't just predicting radiation exposure.
+- Potential application: if lab's can use this classifier to check if they are able to simulate space microbiome in lab mice.
+- Constraints: which variables to choose, alpha diversity varies from individual to individual, beta diversity is built on comparisons, so... functionality and ISA is best idea. 
+Poetntial 3 aims:
+1. Taxonomic
+2. Functional
+3. Classifier
+
+Allowed to modify project as we go if this doesn't pan out.
+
+Feedback on proposal draft:
+- Do we need references in our aims? Yes, try to provide background. Other studies of mice being sent to space in intro and aims; mention even if you don't elaborate.
+- Confirmed that it is okay to use basal control mice as a quality check.
+- For time comparision, be EXPLICIT about hypothesis.
+- In Dataset Overview, ensure you talk about conditions & detail.
+
+ISA should be part of taxanomic analysis (aim 1).
+Aim 1: Group all space (30+60) vs all earth 
+Aim 2: SPACE VS EARTH functional
+Aim 3: 30 days vs 60 days to compare time. Mention limitation of data collection at time points; our results may be used to address the limitation (were the effects exacerbated?)
+
+Modify research question; not just looking at time exposure anymore!
