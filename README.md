@@ -6,7 +6,7 @@ Meeting time is each Friday at 3:45pm
    * [Meeting 1 - October 4th](#October-4th,-2024)
    * [Meeting 2 - October 11th](#October-11th,-2024)
    * [Meeting 3 - October 18th](#October-18th,-2024)
-
+* [Meeting 4 - October 25th](October-25th,-2024)
 # Meeting Agenda
 
 ## October 4th, 2024
@@ -216,3 +216,9 @@ Aim 2: SPACE VS EARTH functional
 Aim 3: 30 days vs 60 days to compare time. Mention limitation of data collection at time points; our results may be used to address the limitation (were the effects exacerbated?)
 
 Modify research question; not just looking at time exposure anymore!
+
+
+## October 25th, 2024
+
+### Agenda
+1. Can we use the dataset from the RR-1 and maybe RR-7 to train a classifier
