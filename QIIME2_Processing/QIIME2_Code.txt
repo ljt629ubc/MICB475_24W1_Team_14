@@ -124,6 +124,12 @@ qiime feature-classifier fit-classifier-naive-bayes \
   --i-reference-taxonomy /mnt/datasets/silva_ref_files/silva-138-99-tax.qza \
   --o-classifier classifier.qza
 
+#Generating taxonomy.qza file for taxonomic analysis
+qiime feature-classifier classify-sklearn \
+  --i-classifier classifier.qza \
+  --i-reads radiation_rep-seqs_mg_UPDATED.qza \
+  --o-classification space_taxonomy.qza
+
 
 #reperform alpha rarefaction and feature table visualization after filtering out mitochondria/chlorplasts
 
