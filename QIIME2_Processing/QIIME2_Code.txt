@@ -135,6 +135,12 @@ qiime metadata tabulate \
   --m-input-file space_taxonomy.qza \
   --o-visualization space_taxonomy.qzv
 
+#Generate taxa bar plots file
+qiime taxa barplot \
+  --i-table radiation_table_mg_UPDATED.qza \
+  --i-taxonomy space_taxonomy.qza \
+  --m-metadata-file /data/space_radiation_data/space_environment_metadata.txt \
+  --o-visualization space_taxa-bar-plots.qzv
 
 #reperform alpha rarefaction and feature table visualization after filtering out mitochondria/chlorplasts
 
