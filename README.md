@@ -221,4 +221,9 @@ Modify research question; not just looking at time exposure anymore!
 ## October 25th, 2024
 
 ### Agenda
-1. Can we use the dataset from the RR-1 and maybe RR-7 to train a classifier
+1. Prosposal debrief
+2. Project next steps
+   - Taxanomic anaylsis steps 
+   - Functional analysis with PICRUSt2 steps 
+   - Steps to create a classifier
+       - Can we use the dataset from the RR-1 and maybe RR-7 to train a classifier?
