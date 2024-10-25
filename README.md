@@ -220,10 +220,30 @@ Modify research question; not just looking at time exposure anymore!
 
 ## October 25th, 2024
 
+## October 25th, 2024
+
 ### Agenda
 1. Prosposal debrief
+   - Will get proposal next week
+   - Next week meeting mainly going to talk about the results
+   - Can improve proposal within one week
+       - Can improve score
+    
 2. Project next steps
-   - Taxanomic anaylsis steps 
+   - Taxanomic anaylsis steps
    - Functional analysis with PICRUSt2 steps 
    - Steps to create a classifier
+       - Feedback: Can be done with indicator species analysis
+       - Other groups have done in the past
+       - There is a paper written about the steps: Ritu can send the paper to us
+       - Maybe using Data Science 100 classifier code
+       - We can use alpha diversity to make classifier
+       - In the orginal paper: was there future directions
+       - May have to change research direction
+       - Previous study group has done this research question:
+           - https://www.nature.com/articles/s41522-024-00545-1#:~:text=muris%20and%20D.,some%20distinct%20effects%20over%20time
+       - If we make a classifier it can still be novel
+       - As a second option, we can start a new study
+           - Do some research on new possible topics 
+       - Meeting next Tueday at 8am to discuss. 
        - Can we use the dataset from the RR-1 and maybe RR-7 to train a classifier?
