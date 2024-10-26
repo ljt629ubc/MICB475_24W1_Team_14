@@ -245,5 +245,7 @@ Modify research question; not just looking at time exposure anymore!
        - If we make a classifier it can still be novel
        - As a second option, we can start a new study
            - Do some research on new possible topics 
-       - Meeting next Tueday at 8am to discuss. 
+       - Meeting next Tueday at 8am to discuss.
+       - Can use a different bioinformatics package to test?
+       - Classifier to confirm lab base models 
        - Can we use the dataset from the RR-1 and maybe RR-7 to train a classifier?
