@@ -249,3 +249,13 @@ Modify research question; not just looking at time exposure anymore!
        - Can use a different bioinformatics package to test?
        - Classifier to confirm lab base models 
        - Can we use the dataset from the RR-1 and maybe RR-7 to train a classifier?
+    
+
+
+         ## November 1st, 2024
+
+         ### Agenda
+
+         1. Improvements for proposal submission
+         2. Core metrics results
+         3. Discuss predictive model paper from UJEMI methods 
