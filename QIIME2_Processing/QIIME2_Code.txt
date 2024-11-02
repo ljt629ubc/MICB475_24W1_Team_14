@@ -175,50 +175,50 @@ qiime tools import \
   --type "SampleData[PairedEndSequencesWithQuality]" \
   --input-format PairedEndFastqManifestPhred33V2 \
   --input-path /mnt/datasets/project_2/nasa/radiation_lab_manifest.tsv \
-  --output-path ./radlab_demux_seqs_mg.qza
+  --output-path ./radlab_demux_seqs.qza
 
 #Viusualize the new demultiplexed file 
 qiime demux summarize \
-  --i-data radlab_demux_seqs_mg.qza \
-  --o-visualization radlab_demux_seqs_mg.qzv
+  --i-data radlab_demux_seqs.qza \
+  --o-visualization radlab_demux_seqs.qzv
 
-#Export radlab_demux_seqs_mg.qzv to local device for visualization
-#Determine truncation length by visualizing radlab_demux_seqs_mg.qzv on QIIME2 View:
+#Export radlab_demux_seqs.qzv to local device for visualization
+#Determine truncation length by visualizing radlab_demux_seqs.qzv on QIIME2 View:
 #Truncation selected: 131
 
 #Denoising/Clustering with Dada2 
 qiime dada2 denoise-paired \
-  --i-demultiplexed-seqs radlab_demux_seqs_mg.qza \
+  --i-demultiplexed-seqs radlab_demux_seqs.qza \
   --p-trim-left-f 0 \
   --p-trim-left-r 0 \
   --p-trunc-len-f 131 \
   --p-trunc-len-r 131 \
-  --o-representative-sequences radlab_rep-seqs_mg.qza \
-  --o-table radlab_table_mg.qza \
-  --o-denoising-stats radlab_stats_mg.qza
+  --o-representative-sequences radlab_rep-seqs.qza \
+  --o-table radlab_table.qza \
+  --o-denoising-stats radlab_stats.qza
 -----Waiting----
-#Visualize radlab_rep-seqs_mg.qza file
+#Visualize radlab_rep-seqs.qza file
 qiime feature-table tabulate-seqs \
-  --i-data radlab_rep-seqs_mg.qza \
-  --o-visualization radlab_rep-seqs_mg.qzv
+  --i-data radlab_rep-seqs.qza \
+  --o-visualization radlab_rep-seqs.qzv
 
-#Visualize radlab_table_mg.qza file using updated metadata file
+#Visualize radlab_table.qza file using updated metadata file
 qiime feature-table summarize \
-  --i-table radlab_table_mg.qza \
-  --o-visualization radlab_table_mg.qzv \
+  --i-table radlab_table.qza \
+  --o-visualization radlab_table.qzv \
   --m-sample-metadata-file /mnt/datasets/project_2/nasa/radiation_lab_metadata.txt
 
 #Create phylogenetic tree
 qiime phylogeny align-to-tree-mafft-fasttree \
-  --i-sequences radlab_rep-seqs_mg.qza \
-  --o-alignment aligned-radlab_rep-seqs_mg.qza \
-  --o-masked-alignment masked-aligned_radlab_rep-seqs_mg.qza \
+  --i-sequences radlab_rep-seqs.qza \
+  --o-alignment aligned-radlab_rep-seqs.qza \
+  --o-masked-alignment masked-aligned_radlab_rep-seqs.qza \
   --o-tree unrooted-tree_radlab.qza \
   --o-rooted-tree rooted-tree_radlab.qza \
 
 #Alpha rarefaction check set to max read depth of xxx
   qiime diversity alpha-rarefaction \
-  --i-table radlab_table_mg.qza \
+  --i-table radlab_table.qza \
   --i-phylogeny rooted-tree_radlab.qza \
   --p-max-depth xxx \
   --m-metadata-file /mnt/datasets/project_2/nasa/radiation_lab_metadata.txt
