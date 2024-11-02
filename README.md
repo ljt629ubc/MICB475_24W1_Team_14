@@ -258,4 +258,23 @@ Modify research question; not just looking at time exposure anymore!
 
          1. Improvements for proposal submission
          2. Core metrics results
-         3. Discuss predictive model paper from UJEMI methods 
+         3. Discuss predictive model paper from UJEMI methods
+        
+    
+        ## November 1st, 2024 Meeting
+            - Go back and do data wrangling; combine all 5 groups into one metadata column
+            - Need to know if GC 30d vs 60d is significant or not as it will tell us if radiation is driving significance between space 30d vs 60d
+            - Suspect changes are due to mutation but can't know for sure. Diversification of strain does suggest mutation.
+            - Name 5 groups: ctrl, ground_no_rad_30, ground_no_rad_60, space_rad_short_term, space_rad_long_term
+            - Ground vs space difference is absolutely necessary for taxonomic model since the model would be predicting ground vs space
+            - Sample size issue + hard to do radiation study on dataset that is not radiation-specific
+            - Example: Train model using radiation-specific study, identify some number of taxa associated with radiation using core microbiome analysis (unique species to radiation, abundant and prevalent) and indicator species analysis (which unique ones are predicted) to support chosen taxa (reconcile BOTH manually - or with R if large number - by eliminiating limitations of one of the analysis). See if radiation is affecting space group in RR-6 study by seeing if these taxa are present in OTU table (eg if x in this model is present, yes- how much?) plotting relative abundance of those 6 taxa species and figure out abundance and prevalence threshold.
+            - prediction model; apply it to current study and try to predict even though RR-6 is not annotated.
+            - Caveat: if we find no significant difference, there's no model
+            - Taxonomic model/predictive species is not a computational model; logistical regression model is different.
+            - Lots of limitations/caveats: can build paper around bugs if model doesn't work... downstream everything depends on how many indicator taxa we get.
+
+   - Can use chernobyl dataset to validate our model; in theory it should work, even though it's different radiation.
+   - Qiime2 from scratch from new study, show significance between radiation and no radiation, and then up to core micrbiome and ISA. Then get up to taxonomy table and phyloseq for old dataset. 
+     - As for proposal: implement feedback for revision, not enough time to change.
+     
