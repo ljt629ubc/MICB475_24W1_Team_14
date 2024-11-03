@@ -6,8 +6,9 @@ Meeting time is each Friday at 3:45pm
    * [Meeting 1 - October 4th](#October-4th,-2024)
    * [Meeting 2 - October 11th](#October-11th,-2024)
    * [Meeting 3 - October 18th](#October-18th,-2024)
-* [Meeting 4 - October 25th](October-25th,-2024)
-* [Meeting 5 - November_1st](November-1st,-2024)
+   * [Meeting 4 - October 25th](October-25th,-2024)
+   * [Meeting 5 - November_1st](November-1st,-2024)
+     
 # Meeting Agenda
 
 ## October 4th, 2024
@@ -263,14 +264,16 @@ Modify research question; not just looking at time exposure anymore!
         
     
         ## November 1st, 2024 Meeting
-     Discussion about current project:
+
+     ### Discussion about current project:
      - Go back and do data wrangling; combine all 5 groups into one metadata column
      - Need to know if GC 30d vs 60d is significant or not as it will tell us if radiation is driving significance between space 30d vs 60d
      - Suspect changes are due to mutation but can't know for sure. Diversification of strain does suggest mutation.
      - Name 5 groups: ctrl, ground_no_rad_30, ground_no_rad_60, space_rad_short_term, space_rad_long_term
      - Ground vs space difference is absolutely necessary for taxonomic model since the model would be predicting ground vs space
      - Sample size issue + hard to do radiation study on dataset that is not radiation-specific
-      New project suggested:
+       
+### New project suggested:
 Example: Train model using radiation-specific study, identify some number of taxa associated with radiation using core microbiome analysis (species unique to radiation; accounts for abundance + prevalence) and indicator species analysis (which unique ones are predicted) to support chosen taxa (reconcile BOTH manually - or with R if large number - by eliminiating limitations of one of the analysis). See if radiation is affecting space group in RR-6 study by seeing if these taxa are present in OTU table (e.g., in R... if x in this model is present, yes- how much?) plotting relative abundance of those  taxa species. Figuring out out abundance and prevalence threshold based on how many species are identified via the core microbiome + ISA analsyis is key.
             - prediction model; apply it to current study and try to predict even though RR-6 is not annotated.
             - Caveat: if we find no significant difference, there's no model
@@ -278,6 +281,6 @@ Example: Train model using radiation-specific study, identify some number of tax
             - Lots of limitations/caveats: can build paper around issues if model doesn't work...  everything downstream will depends on                  how many indicator taxa we get.
           - Can use chernobyl dataset to validate our model; in theory it should work, even though it's different radiation.
 
-Plans moving forward after meeting:
+### Plans moving forward after meeting:
 - Qiime2 pipeline executed from scratch for new study, show significance between radiation and no radiation mice cohorts, and conduct core micrbiome and ISA analysis to identify indicator species unqique to radiation. Then get up to taxonomy table and phyloseq for RR-6 dataset. 
 - As for revised proposal: specifically address TA feedback on proposal, rather than change content itself due to time constraint.
