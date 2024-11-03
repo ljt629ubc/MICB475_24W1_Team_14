@@ -1,0 +1,23 @@
+qiime dada2 denoise-paired \
+  --i-demultiplexed-seqs radlab_demux_seqs.qza \
+  --p-trunc-len-r 131 \
+  --p-trunc-len-f 150 \
+  --p-trunc-q 30 \
+  --o-representative-sequences rad_lab_q_rep-seqs.qza \
+  --o-table rad_lab_q_table.qza \
+  --o-denoising-stats rad_lab_1_dada2-stats.qza \
+  --verbose \
+  &
+
+  qiime metadata tabulate \
+  --m-input-file rad_lab_q_dada2-stats.qza \
+  --o-visualization rad_lab_q_dada2-stats.qzv
+
+qiime feature-table tabulate-seqs \
+  --i-data rad_lab_q_rep-seqs.qza \
+  --o-visualization rad_lab_q_rep-seqs.qzv
+
+qiime feature-table summarize \
+  --i-table rad_lab_q_table.qza  \
+  --o-visualization rad_lab_q_table.qzv \
+  --m-sample-metadata-file radiation_lab_metadata.txt
