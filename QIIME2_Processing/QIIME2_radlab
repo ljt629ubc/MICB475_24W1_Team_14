@@ -1,3 +1,4 @@
+dada2 including Q value filtering
 qiime dada2 denoise-paired \
   --i-demultiplexed-seqs radlab_demux_seqs.qza \
   --p-trunc-len-r 131 \
