@@ -48,3 +48,50 @@ qiime feature-table summarize \
   --o-visualization rad_lab_trunc_table.qzv \
   --m-sample-metadata-file radiation_lab_metadata.txt
 
+
+#Generating taxonomy.qza file for taxonomic analysis using classifier trained for environmental data, as they use the same primers
+qiime feature-classifier classify-sklearn \
+  --i-classifier /data/space_environment_data/classifier.qza \
+  --i-reads trunc_filtered/rad_lab_trunc_rep-seqs.qza \
+  --o-classification radlab_taxonomy.qza \
+  &
+
+#create phylogenetic tree
+qiime phylogeny align-to-tree-mafft-fasttree \
+  --i-sequences trunc_filtered/rad_lab_trunc_rep-seqs.qza \
+  --o-alignment aligned-radlab_rep-seqs.qza \
+  --o-masked-alignment masked-aligned_radlab_rep-seqs.qza \
+  --o-tree unrooted-tree_radlab.qza \
+  --o-rooted-tree rooted-tree_radlab.qza \
+  &
+
+  #Generate taxa bar plots file - start here
+
+qiime taxa barplot \
+  --i-table trunc_filtered/rad_lab_trunc_table.qza \
+  --i-taxonomy radlab_taxonomy.qza \
+  --m-metadata-file radiation_lab_metadata.txt  \
+  --o-visualization radlab_taxa_plots.qzv
+
+
+#filter out chloroplast and mitochondria on table
+  qiime taxa filter-table \
+  --i-table trunc_filtered/rad_lab_trunc_table.qza \
+  --i-taxonomy radlab_taxonomy.qza \
+  --p-exclude mitochondria,chloroplast \
+  --o-filtered-table radlab_table-no-mito-chloro.qza \
+  &
+  
+qiime feature-table summarize \
+  --i-table radlab_table-no-mito-chloro.qza \
+  --o-visualization radlab_table-no-mito-chloro.qzv \
+  --m-sample-metadata-file radiation_lab_metadata.txt 
+
+# Alpha-rarefaction
+qiime diversity alpha-rarefaction \
+  --i-table radlab_table-no-mito-chloro.qza \
+  --i-phylogeny rooted-tree_radlab.qza \
+  --p-max-depth 168802 \
+  --m-metadata-file  radiation_lab_metadata.txt\
+  --o-visualization alpha-rarefaction_radlab_no_mito_chloro.qzv
+
