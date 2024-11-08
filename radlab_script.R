@@ -1,0 +1,107 @@
+meta <- read.delim(file = "radiation_lab_metadata.txt", sep = "\t") #R automatically changes any columns with the same name 
+colnames(meta)[colnames(meta) == 'sample.id'] <- 'sample-id' #R automatically changes the name of the first column to "sample.id", however the qiime 
+# code is not compatible with this column name so it must be changed back 
+write.table(meta, file="radiation_lab_metadata.txt", sep="\t", quote=FALSE, row.names = FALSE)
+
+
+library(tidyverse)
+library(ape)
+library(phyloseq)
+library(indicspecies)
+library(microbiome)
+library(ggVennDiagram)
+
+#file path for loadding data 
+metafp <- "radiation_lab_metadata.txt"
+meta <- read_delim(metafp, delim="\t")
+otufp <- "exports/feature-table.txt"
+otu <- read_delim(file = otufp, delim="\t", skip=1)
+taxfp <- "exports/taxonomy.tsv"
+tax <- read_delim(taxfp, delim="\t")
+phylotreefp <- "exports/tree.nwk"
+phylotree <- read.tree(phylotreefp)
+
+#Table formats
+
+# OTU tables should be a matrix with rownames and colnames as OTUs and sample IDs
+otu_mat <- as.matrix(otu[, -1]) 
+rownames(otu_mat) <- otu$`#OTU ID`  
+OTU <- otu_table(otu_mat, taxa_are_rows = TRUE)  
+
+
+#format metadata making sure its a dataframe
+samp_df <- as.data.frame(meta[-1, ])  
+rownames(samp_df) <- samp_df[, 1]  
+samp_df <- samp_df[, -1] 
+SAMP <- sample_data(samp_df)  
+
+
+# Expand taxonomy into separate columns for each taxonomic rank
+taxonomy_expanded <- tax %>%
+  separate(Taxon, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"), sep = "; ", fill = "right")  # Ensure there's a space after the semicolon
+
+# Convert expanded taxonomy to a matrix
+taxonomy_mat <- as.matrix(taxonomy_expanded[, -1])  
+rownames(taxonomy_mat) <- taxonomy_expanded$`Feature ID`  
+TAX <- tax_table(taxonomy_mat) 
+
+#phyloseq object
+radseq <- phyloseq(OTU, SAMP, TAX, phylotree)
+
+#rarefied to 49479
+radseq_rare <- rarefy_even_depth(radseq, rngseed = 1, sample.size = 49479)
+
+
+#Convert to relative abundance
+radseq_RA <- transform_sample_counts(radseq, fun=function(x) x/sum(x))
+
+#ISA
+isa_rad <- multipatt(t(otu_table(radseq_RA)), cluster = sample_data(radseq_RA)$`ionizing_radiation`)
+summary(isa_rad)
+
+# Extract taxonomy table
+taxtable <- tax_table(radseq_RA) %>% as.data.frame() %>% rownames_to_column(var="ASV")
+
+# Merge taxonomy table with phyloseq object and filter by significant p-value
+res <- isa_rad$sign %>%
+  rownames_to_column(var="ASV") %>%
+  left_join(taxtable) %>%
+  filter(p.value <= 0.05) 
+
+# View results
+View(res)
+
+write.csv(res, "filtered_radlab_isa.csv", row.names = FALSE)
+
+
+#CORE MICROBIOME
+radseq_rad <- subset_samples(radseq_RA, `ionizing_radiation`=="Irradiated with 16 O")
+radseq_sham <- subset_samples(radseq_RA, `ionizing_radiation`=="Sham-irradiated")
+
+# What ASVs are found in more than 70% of samples in each radiation usage category?
+# trying changing the prevalence to see what happens
+sham_ASVs <- core_members(radseq_sham, detection=0, prevalence = 0.7)
+rad_ASVs <- core_members(radseq_rad, detection=0, prevalence = 0.7)
+
+tax_table(prune_taxa(sham_ASVs,radseq))
+tax_table(prune_taxa(rad_ASVs,radseq))
+
+# can plot those ASVs' relative abundance
+prune_taxa(rad_ASVs,radseq_RA) %>% 
+  plot_bar(fill="Species") + 
+  facet_wrap(.~`ionizing_radiation`, scales ="free")
+prune_taxa(sham_ASVs,radseq_RA) %>% 
+  plot_bar(fill="Species") + 
+  facet_wrap(.~`ionizing_radiation`, scales ="free")
+
+
+sham_list <- core_members(radseq_sham , detection=0.001, prevalence = 0.10)
+rad_list <- core_members(radseq_rad, detection=0.001, prevalence = 0.10)
+
+radlab_list_full <- list(Sham = sham_list, Radiation = rad_list)
+
+# Create a Venn diagram using all the ASVs shared and unique to radiation exposure
+first_venn <- ggVennDiagram(x = radlab_list_full)
+
+
+ggsave("venn_radlab.png", first_venn)
