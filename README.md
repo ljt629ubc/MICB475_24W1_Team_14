@@ -256,7 +256,7 @@ Modify research question; not just looking at time exposure anymore!
 
          ## November 1st, 2024
 
-         ### Agenda
+### Agenda
 
          1. Improvements for proposal submission
          2. Core metrics results
@@ -284,3 +284,11 @@ Example: Train model using radiation-specific study, identify some number of tax
 ### Plans moving forward after meeting:
 - Qiime2 pipeline executed from scratch for new study, show significance between radiation and no radiation mice cohorts, and conduct core micrbiome and ISA analysis to identify indicator species unqique to radiation. Then get up to taxonomy table and phyloseq for RR-6 dataset. 
 - As for revised proposal: specifically address TA feedback on proposal, rather than change content itself due to time constraint.
+
+
+  ## November 8th, 2024
+  
+  ### Agenda
+1. Data Processing Discussion
+   - Core metrics analysis results
+   - Indicator species analysis 
