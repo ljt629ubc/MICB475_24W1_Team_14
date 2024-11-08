@@ -95,3 +95,55 @@ qiime diversity alpha-rarefaction \
   --m-metadata-file  radiation_lab_metadata.txt\
   --o-visualization alpha-rarefaction_radlab_no_mito_chloro.qzv
 
+49479 for sampling depth
+
+qiime diversity core-metrics-phylogenetic \
+  --i-phylogeny rooted-tree_radlab.qza \
+  --i-table radlab_table-no-mito-chloro.qza \
+  --p-sampling-depth 49479 \
+  --m-metadata-file radiation_lab_metadata.txt \
+  --output-dir diversity-core-metrics
+
+  qiime diversity alpha-group-significance \
+  --i-alpha-diversity diversity-core-metrics/observed_features_vector.qza \
+  --m-metadata-file radiation_lab_metadata.txt \
+  --o-visualization alpha-group-sig-obs-feats.qzv
+
+  qiime diversity alpha-group-significance \
+  --i-alpha-diversity diversity-core-metrics/faith_pd_vector.qza \
+  --m-metadata-file radiation_lab_metadata.txt \
+  --o-visualization alpha-group-sig-faith.qzv
+
+  qiime diversity alpha-group-significance \
+  --i-alpha-diversity diversity-core-metrics/shannon_vector.qza \
+  --m-metadata-file radiation_lab_metadata.txt \
+  --o-visualization alpha-group-sig-shannon.qzv
+
+  qiime diversity alpha-group-significance \
+  --i-alpha-diversity diversity-core-metrics/evenness_vector.qza \
+  --m-metadata-file radiation_lab_metadata.txt \
+  --o-visualization alpha-group-sig-eveness.qzv
+
+
+  qiime tools export \
+  --input-path rooted-tree_radlab.qza \
+  --output-path /data/radiation_lab_data/
+
+  qiime tools export \
+  --input-path radlab_table-no-mito-chloro.qza \
+  --output-path /data/radiation_lab_data/
+
+  qiime tools export \
+  --input-path radlab_taxonomy.qza \
+  --output-path /data/radiation_lab_data/
+
+biom convert -i exports/feature-table.biom --to-tsv -o exports/feature-table.txt
+scp -r root@10.19.139.193:/data/radiation_lab_data/exports/* .
+qiime tools export \
+  --input-path /Users/jackson/Desktop/eosc_448/all_data/core-metrics-results/Data/weighted_unifrac_distance_matrix.qza \
+  --output-path /Users/jackson/Desktop/eosc_448/all_data
+
+  mv tree.nwk exports
+  mv feature-table.biom  exports
+  mv taxonomy.tsv exports
+
