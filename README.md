@@ -291,4 +291,31 @@ Example: Train model using radiation-specific study, identify some number of tax
   ### Agenda
 1. Data Processing Discussion
    - Core metrics analysis results
-   - Indicator species analysis 
+   - Indicator species analysis
+  
+## November 8th, 2024
+
+Potential issues: radiation-induced mutations makes radiation appear more diverse, undefined species (SILVA is not well annotated, we can annotate ourselves). Considering radiation dosage; clustering all may be bad at predicting.
+QUESTION: rarefied phyloseq, regular phyloseq + relative abundance -- which to use for ISA and core microbiome?
+ANSWER: RARIFIED only for diversity metrics.
+
+Update: QIIME2 pipeline completed. For irradiated versus sham mice -- Faith PD was significant. Shannon not significant = Radiation is not affecting general abundance but affecting species. 
+Beta diversity -- Unweighted unifrac was significantly different. 
+Taxa barplots only good for seeing obvious, dramatic differences.
+10 and 30 day groups and 3 dosage (qiime does not show alpha diversity because it considers it continuous). Do diversity metrics in R, turning dosages to characters.
+
+ISA -- 17 ASVs unique to radiation. (Limiting factor).
+Core microbiome -- 52 unique ASVs. Set at lowest detection level, try setting to 0 prevalence and plot instead.
+
+Next step: Reconcile by extracting 52 and compare to 17. If they don't reconcile, just use 17 from ISA.
+How do we choose abundance threshold? Relative > absolute since counts depend on sequencing depth (not represantative of population). Plot reconciled absolute abundance.
+Plot comparing abundance and prevalence (check to see if there's function phyloseq package measuring prevalence, could also loop through and check which ASVs are not a 0 in sample).
+46 irradiated mice.
+
+Don't annotate until put into table in manuscript since using same database. 
+
+Last paragraph in intro: what you did
+Methods: dedicate first paragraph to dataset (sample size, variables measured. Don't need to talk about how data collected.) 
+
+Potential validation tool: https://docs.qiime2.org/2024.10/tutorials/sample-classifier/ 
+or k-nn classifer.
