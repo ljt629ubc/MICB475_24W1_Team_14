@@ -105,3 +105,7 @@ first_venn <- ggVennDiagram(x = radlab_list_full)
 
 
 ggsave("venn_radlab.png", first_venn)
+
+# Extract ASVs unique to radiation exposure 
+rad_unique <- setdiff(rad_list, sham_list)
+rad_unique
