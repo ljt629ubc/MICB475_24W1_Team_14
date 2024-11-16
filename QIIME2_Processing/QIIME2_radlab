@@ -1,3 +1,18 @@
+#Maka a new directory on the shared team server
+mkdir radiation_lab_data
+
+#Use manifest.tsv file to import and demultiplex the radiation data
+qiime tools import \
+  --type "SampleData[PairedEndSequencesWithQuality]" \
+  --input-format PairedEndFastqManifestPhred33V2 \
+  --input-path /mnt/datasets/project_2/nasa/radiation_lab_manifest.tsv \
+  --output-path ./radlab_demux_seqs.qza
+
+#Viusualize the new demultiplexed file 
+qiime demux summarize \
+  --i-data radlab_demux_seqs.qza \
+  --o-visualization radlab_demux_seqs.qzv
+
 dada2 including Q value filtering
 qiime dada2 denoise-paired \
   --i-demultiplexed-seqs radlab_demux_seqs.qza \
