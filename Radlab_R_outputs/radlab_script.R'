@@ -29,11 +29,14 @@ rownames(otu_mat) <- otu$`#OTU ID`
 OTU <- otu_table(otu_mat, taxa_are_rows = TRUE)  
 
 
-#format metadata making sure its a dataframe
-samp_df <- as.data.frame(meta[-1, ])  
-rownames(samp_df) <- samp_df[, 1]  
-samp_df <- samp_df[, -1] 
-SAMP <- sample_data(samp_df)  
+#### Format sample metadata ####
+# Save everything except sampleid as new data frame
+samp_df <- as.data.frame(meta[,-1])
+# Make sampleids the rownames
+rownames(samp_df)<- meta$'sample-id'
+# Make phyloseq sample data with sample_data() function
+SAMP <- sample_data(samp_df)
+
 
 
 # Expand taxonomy into separate columns for each taxonomic rank
@@ -109,3 +112,18 @@ ggsave("venn_radlab.png", first_venn)
 # Extract ASVs unique to radiation exposure 
 rad_unique <- setdiff(rad_list, sham_list)
 rad_unique
+
+
+# convert rad_unique list to datafram
+core_rad_unique_df <- data.frame(rad_unique)
+colnames(core_rad_unique_df)[1] <- "ASV"
+
+#create df with only indicators of radiation from isa
+rad_isa <- res %>%
+  filter(`s.Irradiated with 16 O` == 1)
+
+#inner join to select for ASVs that are in both
+core_isa_rad <- inner_join(core_rad_unique_df, rad_isa, by = "ASV")
+
+#same asv 
+write.csv(core_isa_rad , "core_isa_radlab.csv", row.names = FALSE)
