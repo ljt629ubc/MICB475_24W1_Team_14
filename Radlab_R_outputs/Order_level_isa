@@ -1,0 +1,46 @@
+#perform ISA at order level
+# Get the order information for each ASV
+asv_order <- taxonomy_expanded %>%
+  select(`Feature ID`, Order) %>%
+  filter(!is.na(Order) & Order != "")
+
+# Aggregate at Order level
+order_level_counts <- otu %>%
+  rename(ASV = `#OTU ID`) %>%
+  left_join(asv_order, by = c("ASV" = "Feature ID")) %>%
+  filter(!is.na(Order) & Order != "") %>%
+  group_by(Order) %>%
+  summarise(across(-ASV, sum)) %>%
+  column_to_rownames("Order")
+
+# Convert to matrix for phyloseq
+order_mat <- as.matrix(order_level_counts)
+
+# Create new taxonomy matrix at order level
+order_tax <- matrix(
+  ncol = 7,
+  nrow = nrow(order_mat),
+  dimnames = list(
+    rownames(order_mat),
+    c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+  )
+)
+order_tax[, "Order"] <- rownames(order_mat)
+
+# Create phyloseq object with aggregated data
+OTU_order <- otu_table(order_mat, taxa_are_rows = TRUE)
+TAX_order <- tax_table(order_tax)
+radlab_order <- phyloseq(OTU_order, SAMP, TAX_order)
+
+# Convert to relative abundance
+radlab_order_RA <- transform_sample_counts(radlab_order, function(x) x/sum(x))
+
+# Perform ISA at order level
+isa_order_radlab <- multipatt(t(otu_table(radlab_order_RA)), cluster = sample_data(radlab_order_RA)$`ionizing_radiation`)
+summary(isa_order_radlab )
+
+
+# Extract results for order level
+order_results <- isa_order_radlab$sign %>%
+  rownames_to_column(var="Order") %>%
+  filter(p.value <= 0.05)
