@@ -1,21 +1,37 @@
+#get list of taxa ranks
+tax_ranks <- rank_names(radseq)
+#exlude domain as it messes with phylotree
+tax_ranks <- tax_ranks[tax_ranks != "Domain"]
 
-#Convert to family level
-family_radseq <- tax_glom(radseq,"Family", NArm = FALSE)
-#Convert to relative abundance
-family_radseq_RA <- transform_sample_counts(family_radseq, fun=function(x) x/sum(x))
-#Order ISA
-family_isa_rad <- multipatt(t(otu_table(family_radseq_RA)), cluster = sample_data(family_radseq_RA)$`ionizing_radiation`)
-summary(family_isa_rad) #---> no significant order
 
-head(tax_table(family_radseq_RA))
-head(otu_table(family_radseq_RA))
-head(family_isa_rad)
+# emptyresults
+results <- list()
 
-fam_taxtable <- tax_table(family_radseq_RA) %>% as.data.frame() %>% rownames_to_column(var="ASV")
-
-# consider that your table is only going to be resolved up to the genus level, be wary of 
-# anything beyond the glomed taxa level
-family_isa_rad$sign %>%
-  rownames_to_column(var="ASV") %>%
-  left_join(fam_taxtable) %>%
-  filter(p.value<0.05) %>% View()
+# iterate over taxonomic ranks
+for (rank in tax_ranks) {
+  # glom to the current taxonomic rank
+  glommed_data <- tax_glom(radseq, rank, NArm = FALSE)
+  
+  # convert to relative abundance
+  glommed_data_RA <- transform_sample_counts(glommed_data, function(x) x / sum(x))
+  # perform ISA
+  isa_result <- multipatt(t(otu_table(glommed_data_RA)), cluster = sample_data(glommed_data_RA)$`ionizing_radiation`)
+  # Summarize with taxa info
+  fam_taxtable <- tax_table(glommed_data_RA) %>% 
+    as.data.frame() %>% 
+    rownames_to_column(var = "ASV")
+  #filter significant results
+  significant_results <- isa_result$sign %>%
+    rownames_to_column(var = "ASV") %>%
+    left_join(fam_taxtable, by = "ASV") %>%
+    filter(p.value < 0.05)
+  
+  # Store results
+  results[[rank]] <- significant_results
+}
+view(results$Family)
+view(results$Species)
+view(results$Genus)
+view(results$Order)
+view(results$Class)
+view(results$Phylum)
