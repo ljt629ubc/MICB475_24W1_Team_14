@@ -319,3 +319,13 @@ Methods: dedicate first paragraph to dataset (sample size, variables measured. D
 
 Potential validation tool: https://docs.qiime2.org/2024.10/tutorials/sample-classifier/ 
 or k-nn classifer.
+
+## November 22nd, 2024
+
+### Agenda
+1. Check data processing
+   - Filtering used on Space ASV
+   - To which taxanomic level must the ISA results be resolved to
+2. Expectations for manifest/presentation figures
+   - What is necessary to have
+3. Previsions to Presentation asignment  
