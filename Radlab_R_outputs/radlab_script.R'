@@ -131,7 +131,8 @@ write.csv(core_isa_rad , "core_isa_radlab.csv", row.names = FALSE)
 
 ##CREATING TABLE FOR K-N CLASSIFIER
 
-# view get asv_matrix and metadata from relative abundance phyloseq object
+# get asv_matrix and metadata from relative abundance phyloseq object
+
 RA_asv_table <- as.data.frame(otu_table(radseq_RA))
 metadata <- as.data.frame(sample_data(radseq_RA))
 
@@ -140,14 +141,19 @@ view(metadata)
 
 #transpose otu_mat so asvid are columns and sites are row names with values as realtive abundance of that asv at that site
 RA_asv_table <- t(RA_asv_table)
+
 #filter metadata table so only "ionizing_radiation" column remains (rownames are still sites)
 rad_or_not <- metadata[, "ionizing_radiation", drop = FALSE]
+
 view(rad_or_not)
 
 #merge RA_asv_table to rad_or_not by rownames(sites) to create kn_class_df table
 kn_class_df <- merge(RA_asv_table, rad_or_not, by = "row.names") 
+
 #rename first column from Row,names to SampleID
 colnames(kn_class_df)[colnames(kn_class_df) == "Row.names"] <- "SampleID"
+
 view(kn_class_df)
+
 #save as a csv
 write.csv(kn_class_df, "kn_class_table.csv", row.names = FALSE)
