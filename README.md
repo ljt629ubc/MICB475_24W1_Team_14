@@ -337,10 +337,10 @@ Which figures for diversity metrics?
 - Put some in supplemental
 
 Results:  
-How many did you find = Detection level
-Have table of 9 and annotate best we can with BLAST
+How many did you find = Detection level  
+Have table of 9 and annotate best we can with BLAST  
 
-Next meeting: 
+By next meeting: 
 - have powerpoint with ALL figures so we can pick.  
 - To annotate: Go back to rep-seq files, use ASV IDs to blast. Highest %. Would have to do for all 154 (for ASVs 5,6,7)... Could align 154 ASV IDs. Should be exactly the same seqeunces... EXACT because ASVs!  
 - Could also extract rep-seqs from each dataset and highlight on excel   
