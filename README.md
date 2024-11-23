@@ -329,3 +329,27 @@ or k-nn classifer.
 2. Expectations for manifest/presentation figures
    - What is necessary to have
 3. Previsions to Presentation asignment  
+
+## November 22nd, 2024 Meeting
+ASV IDs will not match.
+
+Which figures for diversity metrics?
+- Put some in supplemental
+
+Results:  
+How many did you find = Detection level
+Have table of 9 and annotate best we can with BLAST
+
+Next meeting: 
+- have powerpoint with ALL figures so we can pick.  
+- To annotate: Go back to rep-seq files, use ASV IDs to blast. Highest %. Would have to do for all 154 (for ASVs 5,6,7)... Could align 154 ASV IDs. Should be exactly the same seqeunces... EXACT because ASVs!  
+- Could also extract rep-seqs from each dataset and highlight on excel   
+- Subset phyloseq object just by 9 ASVs 
+- Extract sequences from rep-seqs of 9 ASVs and match to full rep-seq of space  
+- Filter on qiime for only space spamples in rep-seq and for GC. Look into qiime filtering by metadata category.   
+- 3 phyloseq objects with our ASVs. Extract RA abundance data using bubble plot (use farm paper code)... proof of concept though we're not sure if it says mice were irradiated. Would have to validate 9 ASVs, would have to do another dataset.    
+- Can discuss our thoughts on Farm paper methodology  
+- Computational model? Create RA table in phyloseq, take OTU table and then append metadata column.  
+- Not a hypothesis/research question  
+- Knowledge gap: done in disease predictive microbiomes but not for environmental/abiotic conditions, applying Farm paper methodology
+  
