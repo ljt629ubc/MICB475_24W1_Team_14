@@ -127,6 +127,7 @@ core_isa_rad <- inner_join(core_rad_unique_df, rad_isa, by = "ASV")
 #save asv 
 write.csv(core_isa_rad , "core_isa_radlab.csv", row.names = FALSE)
 
+
 ## CREATE BUBBLE PLOT
 # Extract the OTU table as a matrix
 otu_relative_matrix <- as(otu_table(radseq_RA), "matrix")
@@ -151,18 +152,35 @@ final_data_frame <- data.frame(
   RelativeAbundance = mean_relative_abundance
 )
 
-# Create the bubble plot
-bubble_plot <- ggplot(final_data_frame, 
-                        aes(x = 0, y = ASV, size = RelativeAbundance)) +
+# Create a data frame for "RadSpace" with zero relative abundance
+radspace_data_frame <- data.frame(
+  ASV = names(mean_relative_abundance),
+  RelativeAbundance = 0,  # Zero hits for all ASVs
+  Group = "RadSpace"
+)
+
+# Add the group column to the existing "RadLab" data frame
+final_data_frame <- final_data_frame %>%
+  mutate(Group = "RadLab")
+
+# Combine the two data frames
+combined_data_frame <- bind_rows(final_data_frame, radspace_data_frame)
+
+# Create bubble plot
+bubble_plot <- ggplot(combined_data_frame, 
+                      aes(x = Group, y = ASV, size = RelativeAbundance)) +
   geom_point(shape = 21, color = "black") +
-  xlim(-0.5, 0.5)+
-  scale_size_continuous(range = c(5000*min(final_data_frame$RelativeAbundance), 5000*max(final_data_frame$RelativeAbundance)), breaks=c(min(final_data_frame$RelativeAbundance), 0.5, max(final_data_frame$RelativeAbundance)), 
-                        labels = scales::percent_format()) +  # Adjust the range of bubble sizes
-  labs(x = "", y = "", size = "Relative Abundance")+
-  theme_bw()+
+  xlim(c("RadLab", "RadSpace")) +
+  scale_size_continuous(
+    range = c(5000 * min(final_data_frame$RelativeAbundance), 5000 * max(final_data_frame$RelativeAbundance)), 
+    breaks = c(min(final_data_frame$RelativeAbundance), 0.5, max(final_data_frame$RelativeAbundance)),
+    labels = scales::percent_format()
+  ) +  # Adjust the range of bubble sizes
+  labs(x = "Group", y = "", size = "Relative Abundance") +
+  theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
-        axis.text.y = element_text(face = "italic"))+
-  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.text.y = element_text(face = "italic")) +
+  theme(axis.text.x = element_text(face = "bold"),
         axis.ticks.x = element_blank(),
         axis.text.y = element_markdown())
 
