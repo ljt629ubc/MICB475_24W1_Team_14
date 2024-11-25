@@ -113,7 +113,6 @@ ggsave("venn_radlab.png", first_venn)
 rad_unique <- setdiff(rad_list, sham_list)
 rad_unique
 
-
 # convert rad_unique list to datafram
 core_rad_unique_df <- data.frame(rad_unique)
 colnames(core_rad_unique_df)[1] <- "ASV"
@@ -125,9 +124,49 @@ rad_isa <- res %>%
 #inner join to select for ASVs that are in both
 core_isa_rad <- inner_join(core_rad_unique_df, rad_isa, by = "ASV")
 
-#same asv 
+#save asv 
 write.csv(core_isa_rad , "core_isa_radlab.csv", row.names = FALSE)
 
+## CREATE BUBBLE PLOT
+# Extract the OTU table as a matrix
+otu_relative_matrix <- as(otu_table(radseq_RA), "matrix")
+
+# Convert to a data frame
+otu_relative_df <- as.data.frame(otu_relative_matrix)
+otu_relative_df
+
+# Define ASVs
+target_asvs <- c("f64f55b1af9b863086103dbf76e94e9f", "003a296ba4c55f34d62c224bda66f5a9", "f9f60c2b7142924f5bf6369037234212", "e3811dd729c742150d8c1c5f6e40c5a9", "c8738b09261f9ea1f3414e16667fac02", "226ab97195d19858d059fffaef17f5d7", "7b77d7b0590befdb68266063cee250a0", "9e31424bebb25a100572229efc973274", "bbc2bc36c756cc8b1509b77eba2ac381")
+
+# Filter to include only target ASVs
+target_relative_abundance <- otu_relative_df[rownames(otu_relative_df) %in% target_asvs, ]
+
+# Calculate the mean relative abundance across all samples for each target ASV
+mean_relative_abundance <- rowMeans(target_relative_abundance)
+mean_relative_abundance
+
+# Convert to data frame for plotting
+final_data_frame <- data.frame(
+  ASV = names(mean_relative_abundance),
+  RelativeAbundance = mean_relative_abundance
+)
+
+# Create the bubble plot
+bubble_plot <- ggplot(final_data_frame, 
+                        aes(x = 0, y = ASV, size = RelativeAbundance)) +
+  geom_point(shape = 21, color = "black") +
+  xlim(-0.5, 0.5)+
+  scale_size_continuous(range = c(5000*min(final_data_frame$RelativeAbundance), 5000*max(final_data_frame$RelativeAbundance)), breaks=c(min(final_data_frame$RelativeAbundance), 0.5, max(final_data_frame$RelativeAbundance)), 
+                        labels = scales::percent_format()) +  # Adjust the range of bubble sizes
+  labs(x = "", y = "", size = "Relative Abundance")+
+  theme_bw()+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.y = element_text(face = "italic"))+
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_markdown())
+
+print(bubble_plot)
 
 ##CREATING TABLE FOR K-N CLASSIFIER
 
