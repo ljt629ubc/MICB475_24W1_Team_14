@@ -166,16 +166,21 @@ final_data_frame <- final_data_frame %>%
 # Combine the two data frames
 combined_data_frame <- bind_rows(final_data_frame, radspace_data_frame)
 
-# Create bubble plot
+# Set up custom sizes for legend
+custom_sizes <- c(
+  0,min(final_data_frame$RelativeAbundance), 0.5, max(final_data_frame$RelativeAbundance)
+)
+
+# Create the bubble plot
 bubble_plot <- ggplot(combined_data_frame, 
                       aes(x = Group, y = ASV, size = RelativeAbundance)) +
   geom_point(shape = 21, color = "black") +
   xlim(c("RadLab", "RadSpace")) +
   scale_size_continuous(
-    range = c(5000 * min(final_data_frame$RelativeAbundance), 5000 * max(final_data_frame$RelativeAbundance)), 
-    breaks = c(min(final_data_frame$RelativeAbundance), 0.5, max(final_data_frame$RelativeAbundance)),
-    labels = scales::percent_format()
-  ) +  # Adjust the range of bubble sizes
+    range = c(1, 5000 * max(final_data_frame$RelativeAbundance)), 
+    breaks = custom_sizes, 
+    labels = c("0%", scales::percent_format()(custom_sizes[-1]))
+  ) +
   labs(x = "Group", y = "", size = "Relative Abundance") +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
