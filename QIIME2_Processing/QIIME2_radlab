@@ -159,3 +159,27 @@ mv tree.nwk exports
 mv feature-table.biom  exports
 mv taxonomy.tsv exports
 
+qiime tools export \
+  --input-path weighted_unifrac_distance_matrix.qza \
+  --output-path /data/radiation_lab_data/exports/weighted_unifrac.tsv
+
+
+qiime tools export \
+  --input-path unweighted_unifrac_distance_matrix.qza \
+  --output-path /data/radiation_lab_data/exports/unweighted_unifrac_distance_matrix.tsv
+
+qiime tools export \
+  --input-path jaccard_distance_matrix.qza \
+  --output-path /data/radiation_lab_data/exports/jaccard_distance_matrix.tsv
+
+  qiime tools export \
+  --input-path bray_curtis_distance_matrix.qza \
+  --output-path /data/radiation_lab_data/exports/bray_curtis_distance_matrix.tsv
+
+   qiime tools export \
+  --input-path  faith_pd_vector.qza \
+  --output-path /data/radiation_lab_data/exports/faith_pd_vector.tsv
+
+  
+scp -r root@10.19.139.193:/data/radiation_lab_data/exports/* .
+
