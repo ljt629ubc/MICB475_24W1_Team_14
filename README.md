@@ -353,3 +353,11 @@ By next meeting:
 - Not a hypothesis/research question  
 - Knowledge gap: done in disease predictive microbiomes but not for environmental/abiotic conditions, applying Farm paper methodology
   
+## November 29nd, 2024
+
+### Agenda
+1. Review our figures
+2. Is there a need for standardization within the KNN model, as certain ASVs only exist in a single sample
+3. General questions regarding manuscript 
+
+## November 29nd, 2024 Meeting
