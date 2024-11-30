@@ -361,3 +361,43 @@ By next meeting:
 3. General questions regarding manuscript 
 
 ## November 29nd, 2024 Meeting
+- diversity results slide: Have to re-create figure in R. Faith “piconte” (spelling error)  package. PCOA (stat representation)  plot in final manuscript. Fig: Faiths and unweighted. Description: should be conclusion is title. Include description of the figure
+- Slide 7: Too text heavy. May use venn-diagram to make representation. 
+- Slide 8: This is Figure 2. In the manuscript. Make numbers bigger.
+- Slide 9: Stat is most important column. Remove ASV IDs. Keep p-value + stat. Stat more close to 1 the better. Do 3 decimal places only! Need to be formatted better for presentation. This is table 1. Leave NA. Keep this and Silva was used for this. Remove for presentation, but keep
+- Slide 10: Remove domain, phylum, class (put bottom as text) (keep all in manuscript). Take away ASV ID. Blast and resolve them as much as they can.
+- Slide 12: Change axes to ASVs 1-9.
+- Slide 14: Remove this slide.  
+- Can present both KNN and random forest model
+- For KNN: We can randomly sample 15 from each group radiated group. But, using all the samples may be better.
+- Random forests model is done --> however, have to interpret results
+- Random forest: uneven groups --> Found 9 ASVs that are best indicators as well
+- Table with KNN + random forest: accuracy of the 9 for each
+- From random forest can extract an accuracy results
+- Try to validate model using the 2 machine learning model (Knn + random forest)
+- Table with percent accuracy based on the 2 models of the 9 ASVs
+- Build model, validate, and test model
+- Validation step: would be the two models (9 vs all ASVs)
+- KNN reflect limitations
+- But, talk about limitations of the two validation models
+- Conclusions draw from validation: 1) KNN and forest limitations the same. Maybe forest: less susceptable to differences in samples size. Only use tables. Forest choses for you,
+- In the conclusions part: maybe have a table of limitations
+- For disccussion: if the 9 taxa is present in the literature.
+- Limitation may be long
+- Why these taxa is present and could be present in space.
+- Narrative: 1) Found taxa, 2) try to validate in machine modeling, and 3) try to test it using space dataset.
+- For KNN: Remove the scaling step.
+- Core micrbiome and ISA: what is the main diff --> how they are measured is different
+
+Manuscript: 
+Fig 1: diversity matrics (faiths + unweighted unifac) + PocA
+2: Core microbiome
+3: Bubble plot
+
+Table 1: ISA
+2: 9 ASV predictors
+3: KNN + Forest results 
+
+Supplement 1: would be error plot from models (KNN and forest model)
+2: Dosage of radiation 
+
