@@ -398,6 +398,6 @@ Table 1: ISA
 2: 9 ASV predictors
 3: KNN + Forest results 
 
-Supplement 1: would be error plot from models (KNN and forest model)
+Supplement 1: would be error plot from models (KNN and forest model) [error plot from models (KNN and forest model) → would be 4 panels].
 2: Dosage of radiation 
 
