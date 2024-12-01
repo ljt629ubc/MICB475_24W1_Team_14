@@ -386,7 +386,8 @@ knn_coreisa_prediction <- predict(knn_coreisa_fit, knn_coreisa_test) %>%
 kable(knn_coreisa_prediction, caption = "Model Accuracy")
 
 
-
+library(picante)
+library(ggpubr)
 
 #PLOTTING FAITH DIVERSITY
 #calculate faith as pd
