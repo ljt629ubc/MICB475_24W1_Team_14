@@ -219,3 +219,90 @@ view(kn_class_df)
 
 #save as a csv
 write.csv(kn_class_df, "kn_class_table.csv", row.names = FALSE)
+
+##CREATING KNN MODEL
+library(tidyverse)
+library(tidymodels)
+library(knitr)
+library(kknn)
+
+#Reading in kn_class table from radlab data
+knn <- "kn_class.csv"
+knn_data <- read_csv(knn)
+knn_data <- knn_data[,-1]
+
+
+#Renaming ionizing radiation classes and converting them to factors
+knn_asv_data <- knn_data %>%
+                mutate(ionizing_radiation = ifelse(ionizing_radiation == "Irradiated with 16 O", "Y", "N")) %>%
+                mutate(ionizing_radiation = as_factor(ionizing_radiation))
+
+#Set seed for reproducability 
+set.seed(123)
+
+#Split data into training and testing data
+knn_asv_split <- initial_split(knn_asv_data, prop = 0.75, strata = ionizing_radiation)
+knn_asv_train <- training(knn_asv_split)
+knn_asv_test <- testing(knn_asv_split)
+
+#Creating knn recipe with all predictors scaled to have a mean of 0. This recipe uses
+#all ASVs as a predictor for radiation exposure. 
+knn_asv_recipe <- recipe(ionizing_radiation ~ ., data = knn_asv_train) %>%
+  step_center(all_predictors())
+
+#Create a tibble of integers from 1 - 30 to optimize k value for the model 
+k_values <- tibble(neighbors = seq(from = 1, to = 30, by = 1))
+
+#Performing 5-fold cross validation 
+knn_asv_vfold <- vfold_cv(knn_asv_train, v = 5, strata = ionizing_radiation)
+
+#Create model specification for tuning neighbours 
+knn_asv_spec <- nearest_neighbor(weight_func = "rectangular", neighbors = tune()) %>%
+  set_engine("kknn") %>%
+  set_mode("classification")
+
+#Testing for optimal number of neighbours (k-value)
+knn_asv_results <- workflow() %>%
+  add_recipe(knn_asv_recipe) %>%
+  add_model(knn_asv_spec) %>%
+  tune_grid(resamples = knn_asv_vfold, grid = k_values) %>%
+  collect_metrics()
+
+#Filtering for accuracy 
+knn_asv_accuracy <- knn_asv_results %>%
+  filter(.metric == "accuracy")
+
+#Plotting Accuracy estimate vs number of neighbours 
+knn_asv_k_plot <- knn_asv_accuracy %>%
+  ggplot(aes(x = neighbors, y = mean)) + 
+  geom_line() + 
+  labs(x = "Neighbors", y = "Accuracy Estimate") +
+  ggtitle("Estimated Accuracy versus Number of Neighbours") +
+  theme(text = element_text(size = 20)) +
+  scale_x_continuous(breaks = seq(1, 30, by = 2))
+knn_asv_k_plot
+
+#Saving knn_asv_kplot
+ggsave(file = "knn_asv_k_plot.png",
+       plot = knn_asv_k_plot,
+       height=8, width=12)
+
+#Create new model specification using optimal number of neigbours: k = 5
+knn_asv_spec <- nearest_neighbor(weight_func = "rectangular", neighbors = 5) %>%
+  set_engine("kknn") %>%
+  set_mode("classification")
+
+#Fitting the model 
+knn_asv_fit <- workflow() %>%
+  add_recipe(knn_asv_recipe) %>%
+  add_model(knn_asv_spec) %>%
+  fit(data = knn_asv_train)
+
+#Use test data to predict unknown samples to test model accuracy
+knn_asv_prediction <- predict(knn_asv_fit, knn_asv_test) %>%
+  bind_cols(knn_asv_test) %>%
+  metrics(truth = ionizing_radiation, estimate = .pred_class) %>%
+  filter(.metric == "accuracy")
+
+#Display model accuracy
+kable(knn_asv_prediction, caption = "Model Accuracy")
