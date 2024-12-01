@@ -384,3 +384,67 @@ knn_coreisa_prediction <- predict(knn_coreisa_fit, knn_coreisa_test) %>%
 
 #Display model accuracy
 kable(knn_coreisa_prediction, caption = "Model Accuracy")
+
+
+
+
+#PLOTTING FAITH DIVERSITY
+#calculate faith as pd
+phylo_dist <- pd(t(otu_table(radseq_rare)), phy_tree(radseq_rare), include.root = F)
+ #add PD to metadata
+sample_data(radseq_rare)$PD <- phylo_dist$PD
+
+#plot metadata against PD
+plot.pd <- ggplot(sample_data(radseq_rare), aes(x = ionizing_radiation, y = PD, fill = ionizing_radiation)) + 
+  geom_boxplot() +
+  theme_minimal(base_size = 14) + 
+  scale_fill_manual(values = c('Sham-irradiated' = '#6baed6', 'Irradiated with 16 O' = '#fc9272')) +
+  xlab("Radiation Exposure") +
+  ggtitle("Comparison of Faith's Phylogenetic Diversity") +
+  ylab('Phylogenetic Diversity') +
+  theme(
+    legend.position = 'none',  
+    plot.title = element_text(hjust = 0.5, face = 'bold')) + 
+  stat_compare_means(method = 't.test', label = 'p.format') 
+
+plot.pd
+
+#save the faith plot
+ggsave("phylogenetic_diversity_plot.png", plot = plot.pd, width = 8, height = 6, dpi = 300, device = "png")
+
+
+#UNWEIGHTED UNIFRAC PLOTS
+#calculate distance matrix using unweighted unifrac method
+beta_dm <- distance(radseq_rare, method='unifrac')
+#perform pcoa on distance matrix
+pcoa_unifrac <- ordinate(radseq_rare, method="PCoA", distance = beta_dm)
+
+#plot it making sure colours match from faiths plot
+gg_pcoa_unifrac <-plot_ordination(radseq_rare, pcoa_unifrac, color = 'ionizing_radiation') +
+  geom_point(size = 2, alpha = 0.9) +
+  theme_minimal(base_size = 15) +
+  labs(
+    title = 'PCoA Plot of Unweighted Unifrac',
+  ) +
+  guides(color = guide_legend(title = 'Radiation Exposure'))+
+  theme(
+    plot.title = element_text(hjust = 0.5, face = 'bold')
+  ) +
+  scale_color_manual(values = c('Sham-irradiated' = '#6baed6', 'Irradiated with 16 O' = '#fc9272'))
+
+gg_pcoa_unifrac
+ 
+#save the unifrac plot
+ggsave("unwunifrac_beta_diversity.png", plot = gg_pcoa_unifrac, width = 8, height = 6, dpi = 300, device = 'png')
+
+
+
+#FORMAT CORE_ISA TABLE FOR PRESENTATION
+core_isa_prez<-read.csv("core_isa_radlab.csv")
+#rename ASVS 1 to 9 and remove unnecessary column and prefixes
+core_isa_prez$ASV <- paste("ASV", 1:length(core_isa_prez$ASV))
+core_isa_prez <- core_isa_prez[, !colnames(core_isa_prez) %in% c('Kingdom', 'Phylum', 'Class', 'stat', 'p.value', 's.Irradiated.with.16.O', 's.Sham.irradiated', 'index')]
+core_isa_prez$Order <- gsub("^o__", "", core_isa_prez$Order)
+core_isa_prez$Family <- gsub("^f__", "", core_isa_prez$Family)
+core_isa_prez$Genus <- gsub("^g__", "", core_isa_prez$Genus)
+core_isa_prez$Species <- gsub("^s__", "", core_isa_prez$Species)
