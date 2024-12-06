@@ -401,3 +401,7 @@ Table 1: ISA
 Supplement 1: would be error plot from models (KNN and forest model) [error plot from models (KNN and forest model) → would be 4 panels].
 2: Dosage of radiation 
 
+## November 29nd, 2024
+
+### Agenda
+1. General questions and advice regarding manuscript
