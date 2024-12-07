@@ -409,47 +409,47 @@ Supplement 1: would be error plot from models (KNN and forest model) [error plot
 ## November 29nd, 2024 Meeting
 No pre-reading of manuscript draft offered.  
 
-In manuscript, explain "why prediction model?" Then go into why you were interested in taxa predictive of radiation, specifically.  
-
-Question: Clarify terminology for models  
-Answer: What we built is a TAXANOMIC model, can even reference other UJEMI paper for this terminology. This term is acceptable to use.  
-
-Question: Should we generally provide background on space at all in INTRO?  
-Answer: No background for space! Go straight into taxanomic model uses. Discuss need for environmental aspect of predictive modelling. Can go into space explanation only when we provide a relevant reason for why radiation would even be a concern.  
-Question: Should we discuss methodology in intro ending statement?  
-Answer: Summarize findings at end of intro, not methodology.  
+In manuscript, explain "why prediction model?" Then go into why you were interested in taxa predictive of radiation, specifically.    
+  
+**Question**: Should we generally provide background on space at all in **INTRO**?  
+**Answer**: No background for space! Go straight into taxanomic model uses. Discuss need for environmental aspect of predictive modelling. Can go into space explanation only when we provide a relevant reason for why radiation would even be a concern.  
+**Question**: Should we discuss methodology in intro ending statement?  
+**Answer**: Summarize findings at end of intro, not methodology.  
 Findings = 9 ASVs found, not validated, not found in space.  
+  
+**Question**: Clarify terminology for models  
+**Answer**: What we built is a TAXANOMIC model, can even reference other UJEMI paper for this terminology. This term is acceptable to use.
 
-Points to keep in mind for writing INTRO:  
+Points to keep in mind for writing **INTRO**:  
 - Intro must discuss our actual findings.  
 - Very briefly discuss datasets (detailed in methods).
 - One line mentioning findings from the RR-6 paper which supports radiation affects gut microbiome of mice.  
 
-Points to keep in mind for DISCUSSION:  
+Points to keep in mind for **DISCUSSION**:  
 
-Question: In our RESULTS, should we discuss role of 9 taxa?  
-Answer: In results, no. In DISCUSSION, you should discuss how those 9 taxa relate to other literature on radiation.  
-
-Question: How can we discuss ASVs that were not fully resolved?
-Answer: All ASVS were resolved to family level. See if these families are commonly associated with radiation. Discussion is for extrapolating data and speculation.
-
-Question: Irradiated diversity went down (RadLab, not RR-6), so should we discuss possibility of radiation-associated mutations which contradicts this sentiment? RadLab and RR-6 diversity metrics give us contradictory results; could this have to do with dosage difference?
-Answer: The first figure is just to validate there is a difference. Not recommended to go deeply into it, unless in future directions. Don't get distracted by this!
-
-Question: Were our Machine Learning slides okay?  
-Answer: Chris marked presentation. Use of K-NN model and Random Forest is good practice, especially Random Forest. He approved of saying "inconclusive" for the results.  
+**Question**: In our RESULTS, should we discuss role of 9 taxa?  
+**Answer**: In results, no. In DISCUSSION, you should discuss how those 9 taxa relate to other literature on radiation.  
+  
+**Question**: How can we discuss ASVs that were not fully resolved?
+**Answer**: All ASVS were resolved to family level. See if these families are commonly associated with radiation. Discussion is for extrapolating data and speculation.
+  
+**Question**: Irradiated diversity went down (RadLab, not RR-6), so should we discuss possibility of radiation-associated mutations which contradicts this sentiment? RadLab and RR-6 diversity metrics give us contradictory results; could this have to do with dosage difference?
+**Answer**: The first figure is just to validate there is a difference. Not recommended to go deeply into it, unless in future directions. Don't get distracted by this!
+  
+**Question**: Were our Machine Learning slides okay?  
+**Answer**: Chris marked presentation. Use of K-NN model and Random Forest is good practice, especially Random Forest. He approved of saying "inconclusive" for the results.  
 Important consideration here: All ASVs was not a good control since they contain our 9 ASVs, adding to accuracy. Random 9 would be better control, running multiple times. For future directions...? Science is all good; claims and interpretations are good.
 
 
-Keep in mind for METHODS:  
+Keep in mind for **METHODS**:  
 - Should justify why KNN and random forest were chosen. Don't need to justify why other ML were excluded.
-
-Question: Should we put QIIME2 outputs in RESULTS?  
-Answer: No put Qiime2 processing (e.g., paramaters for rarefaction) in METHODS subsection.  
-
-Question: How can we justify our model development methodology (core microbiome and ISA)?
-Answer: Previous UJEMI team said it would be extra stringent to measure abundance and prevalence in two different ways.  
-
+  
+**Question**: Should we put QIIME2 outputs in RESULTS?  
+**Answer**: No put Qiime2 processing (e.g., paramaters for rarefaction) in METHODS subsection.  
+  
+**Question**: How can we justify our model development methodology (core microbiome and ISA)?
+**Answer**: Previous UJEMI team said it would be extra stringent to measure abundance and prevalence in two different ways.  
+  
 Divide METHODS into following sections:
 - Datasets: All datasets used that were briefly discussed in intro are outlined here
 - QIIME processing: all parameters (eg rarefaction)
@@ -457,11 +457,11 @@ Divide METHODS into following sections:
 - Validating (no sub-sub sections for KNN and Random forest): figuring out if good model
 - Testing
 
-Question: What is the dintinction between Validating vs Testing?
-Answer: ML figures out if model is good.  
+**Question**: What is the dintinction between Validating vs Testing?
+**Answer**: ML figures out if model is good.  
 Testing only applies model. Based on our model, seems like those mice were not exposed to radiation. 
-
-General points:  
+  
+**General points:**  
 - Keep all code in Github. 
 Data availabilty section at end containing Script/data
 - Acknowledge Evelyn in paper for help with Random Forest in paper!
@@ -469,14 +469,14 @@ Data availabilty section at end containing Script/data
 - Current title is too proposal-y, not taking into consideration we didn't just develop the model but applied it too
 - No word limit, no page limit. Typically 15-25 pages, double-spaced. Keep concise as you can!
 
-General Questions:  
+**General Questions:**
   
-Question: How should we discuss bubble plot?  
-Answer: We should say we weren't able to validate but still tested the model. Mention dosage limitation (include graph Michael made in supplemental if you want).  
+**Question**: How should we discuss bubble plot?  
+**Answer**: We should say we weren't able to validate but still tested the model. Mention dosage limitation (include graph Michael made in supplemental if you want).  
   
-Question: What is our big takeaway?  
-Answer: Takeaway is we built a model that still needs to be validated and tested further.  
+**Question**: What is our big takeaway?  
+**Answer**: Takeaway is we built a model that still needs to be validated and tested further.  
 You should suggest ideas on how to validate better: having dataset with similar radiation, change ML validation control from All ASVs to 9 random ASVs, sample size discrepency. Don't need to go into how to test better necessarily.  
 
-Question: Can we discuss if this is a good or bad method for making a model?  
-Answer: Methodology is strong so we cannot say this. Limitations were with dataset itself. 
+**Question**: Can we discuss if this is a good or bad method for making a model?  
+**Answer**: Methodology is strong so we cannot say this. Limitations were with dataset itself. 
