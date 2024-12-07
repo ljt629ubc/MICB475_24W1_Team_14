@@ -431,10 +431,10 @@ Points to keep in mind for **DISCUSSION**:
 **Question**: In our RESULTS, should we discuss role of 9 taxa?  
 **Answer**: In results, no. In DISCUSSION, you should discuss how those 9 taxa relate to other literature on radiation.  
   
-**Question**: How can we discuss ASVs that were not fully resolved?
+**Question**: How can we discuss ASVs that were not fully resolved?  
 **Answer**: All ASVS were resolved to family level. See if these families are commonly associated with radiation. Discussion is for extrapolating data and speculation.
   
-**Question**: Irradiated diversity went down (RadLab, not RR-6), so should we discuss possibility of radiation-associated mutations which contradicts this sentiment? RadLab and RR-6 diversity metrics give us contradictory results; could this have to do with dosage difference?
+**Question**: Irradiated diversity went down (RadLab, not RR-6), so should we discuss possibility of radiation-associated mutations which contradicts this sentiment? RadLab and RR-6 diversity metrics give us contradictory results; could this have to do with dosage difference?  
 **Answer**: The first figure is just to validate there is a difference. Not recommended to go deeply into it, unless in future directions. Don't get distracted by this!
   
 **Question**: Were our Machine Learning slides okay?  
