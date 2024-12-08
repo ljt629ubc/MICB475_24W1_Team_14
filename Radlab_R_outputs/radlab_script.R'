@@ -113,11 +113,11 @@ ggsave("venn_radlab.png", first_venn)
 rad_unique <- setdiff(rad_list, sham_list)
 rad_unique
 
-# convert rad_unique list to datafram
+# convert rad_unique to dataframe
 core_rad_unique_df <- data.frame(rad_unique)
 colnames(core_rad_unique_df)[1] <- "ASV"
 
-#create df with only indicators of radiation from isa
+#create dataframe with only indicators of radiation
 rad_isa <- res %>%
   filter(`s.Irradiated with 16 O` == 1)
 
@@ -129,49 +129,53 @@ write.csv(core_isa_rad , "core_isa_radlab.csv", row.names = FALSE)
 
 
 ## CREATE BUBBLE PLOT
-# Extract the OTU table as a matrix
+# Extract OTU table as a matrix
 otu_relative_matrix <- as(otu_table(radseq_RA), "matrix")
 
-# Convert to a data frame
+# Convert to data frame
 otu_relative_df <- as.data.frame(otu_relative_matrix)
 otu_relative_df
 
 # Define ASVs
-target_asvs <- c("f64f55b1af9b863086103dbf76e94e9f", "003a296ba4c55f34d62c224bda66f5a9", "f9f60c2b7142924f5bf6369037234212", "e3811dd729c742150d8c1c5f6e40c5a9", "c8738b09261f9ea1f3414e16667fac02", "226ab97195d19858d059fffaef17f5d7", "7b77d7b0590befdb68266063cee250a0", "9e31424bebb25a100572229efc973274", "bbc2bc36c756cc8b1509b77eba2ac381")
+target_asvs <- c("f64f55b1af9b863086103dbf76e94e9f", "003a296ba4c55f34d62c224bda66f5a9", 
+                 "f9f60c2b7142924f5bf6369037234212", "e3811dd729c742150d8c1c5f6e40c5a9", 
+                 "c8738b09261f9ea1f3414e16667fac02", "226ab97195d19858d059fffaef17f5d7", 
+                 "7b77d7b0590befdb68266063cee250a0", "9e31424bebb25a100572229efc973274", 
+                 "bbc2bc36c756cc8b1509b77eba2ac381")
 
 # Filter to include only target ASVs
 target_relative_abundance <- otu_relative_df[rownames(otu_relative_df) %in% target_asvs, ]
 
-# Calculate the mean relative abundance across all samples for each target ASV
+# Calculate mean relative abundance across all samples for each target ASV
 mean_relative_abundance <- rowMeans(target_relative_abundance)
 mean_relative_abundance
 
-# Convert to data frame for plotting
+# Convert data frame for plotting
 final_data_frame <- data.frame(
-  ASV = names(mean_relative_abundance),
+  ASV = paste("ASV", seq_along(mean_relative_abundance)),  
   RelativeAbundance = mean_relative_abundance
 )
 
-# Create a data frame for "RadSpace" with zero relative abundance
+# Create data frame for "RadSpace" with zero relative abundance
 radspace_data_frame <- data.frame(
-  ASV = names(mean_relative_abundance),
-  RelativeAbundance = 0,  # Zero hits for all ASVs
+  ASV = paste("ASV", seq_along(mean_relative_abundance)),  
+  RelativeAbundance = 0,  
   Group = "RadSpace"
 )
 
-# Add the group column to the existing "RadLab" data frame
+# Add group column to existing "RadLab"
 final_data_frame <- final_data_frame %>%
   mutate(Group = "RadLab")
 
-# Combine the two data frames
+# Combine data frames
 combined_data_frame <- bind_rows(final_data_frame, radspace_data_frame)
 
-# Set up custom sizes for legend
+# custom sizes for legend
 custom_sizes <- c(
-  0,min(final_data_frame$RelativeAbundance), 0.5, max(final_data_frame$RelativeAbundance)
+  0, min(final_data_frame$RelativeAbundance), 0.5, max(final_data_frame$RelativeAbundance)
 )
 
-# Create the bubble plot
+# Create bubble plot
 bubble_plot <- ggplot(combined_data_frame, 
                       aes(x = Group, y = ASV, size = RelativeAbundance)) +
   geom_point(shape = 21, color = "black") +
