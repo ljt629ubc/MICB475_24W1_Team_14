@@ -303,8 +303,8 @@ ggsave(file = "knn_asv_k_plot.png",
        plot = knn_asv_k_plot,
        height=8, width=12)
 
-#Create new model specification using optimal number of neigbours: k = 5
-knn_asv_spec <- nearest_neighbor(weight_func = "rectangular", neighbors = 5) %>%
+#Create new model specification using optimal number of neigbours: k = 8
+knn_asv_spec <- nearest_neighbor(weight_func = "rectangular", neighbors = 8) %>%
   set_engine("kknn") %>%
   set_mode("classification")
 
@@ -332,7 +332,7 @@ knn_coreisa_data <- knn_data %>%
   mutate(ionizing_radiation = ifelse(ionizing_radiation == "Irradiated with 16 O", "Y", "N")) %>%
   mutate(ionizing_radiation = as_factor(ionizing_radiation)) %>%
   select(f64f55b1af9b863086103dbf76e94e9f, `003a296ba4c55f34d62c224bda66f5a9`, 
-         f9f60c2b7142924f5bf6369037234212, e3811dd729c742150d8c1c5f6e40c5a9,
+         `75bd82a728427b9fe0161be3977a9dee`, e3811dd729c742150d8c1c5f6e40c5a9,
          c8738b09261f9ea1f3414e16667fac02, `226ab97195d19858d059fffaef17f5d7`,
          `7b77d7b0590befdb68266063cee250a0`, `9e31424bebb25a100572229efc973274`,
          bbc2bc36c756cc8b1509b77eba2ac381, ionizing_radiation)
