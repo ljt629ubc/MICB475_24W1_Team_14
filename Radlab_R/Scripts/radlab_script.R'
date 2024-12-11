@@ -412,18 +412,30 @@ phylo_dist <- pd(t(otu_table(radseq_rare)), phy_tree(radseq_rare), include.root 
 sample_data(radseq_rare)$PD <- phylo_dist$PD
 
 #plot metadata against PD
+library(ggsignif)
 plot.pd <- ggplot(sample_data(radseq_rare), aes(x = ionizing_radiation, y = PD, fill = ionizing_radiation)) + 
   geom_boxplot() +
   theme_minimal(base_size = 14) + 
-  scale_fill_manual(values = c('Sham-irradiated' = '#6baed6', 'Irradiated with 16 O' = '#fc9272')) +
-  xlab("Radiation Exposure") +
-  ggtitle("Comparison of Faith's Phylogenetic Diversity") +
+  scale_fill_manual(
+    values = c('Sham-irradiated' = '#6baed6', 'Irradiated with 16 O' = '#fc9272'),
+    labels = c('Sham-irradiated' = 'No Radiation', 'Irradiated with 16 O' = 'Irradiated') 
+  ) +
+  xlab("Radiation Exposure")  +
   ylab('Phylogenetic Diversity') +
   theme(
     legend.position = 'none',  
-    plot.title = element_text(hjust = 0.5, face = 'bold')) + 
-  stat_compare_means(method = 't.test', label = 'p.format') 
+    plot.title = element_text(hjust = 0.5, face = 'bold')
+  ) + 
+  geom_signif(
+    comparisons = list(c("Sham-irradiated", "Irradiated with 16 O")),  
+    map_signif_level = TRUE,  
+    y_position = max(sample_data(radseq_rare)$PD) + 1, 
+    tip_length = 0.03, 
+    textsize = 6, 
+    color = "black" 
+  )
 
+# Print the plot
 plot.pd
 
 #save the faith plot
@@ -435,23 +447,27 @@ ggsave("phylogenetic_diversity_plot.png", plot = plot.pd, width = 8, height = 6,
 beta_dm <- distance(radseq_rare, method='unifrac')
 #perform pcoa on distance matrix
 pcoa_unifrac <- ordinate(radseq_rare, method="PCoA", distance = beta_dm)
+
 #permanova_test
+sample_data(radseq_rare)$ionizing_radiation <- as.factor(sample_data(radseq_rare)$ionizing_radiation)
 beta_sig <-adonis2(beta_dm ~ sample_data(radseq_rare)$ionizing_radiation)
+
 #plot it making sure colours match from faiths plot
 gg_pcoa_unifrac <-plot_ordination(radseq_rare, pcoa_unifrac, color = 'ionizing_radiation') +
   geom_point(size = 2, alpha = 0.9) +
   theme_minimal(base_size = 15) +
-  labs(
-    title = 'PCoA Plot of Unweighted Unifrac',
-  ) +
   guides(color = guide_legend(title = 'Radiation Exposure'))+
   theme(
     plot.title = element_text(hjust = 0.5, face = 'bold')
   ) +
-  scale_color_manual(values = c('Sham-irradiated' = '#6baed6', 'Irradiated with 16 O' = '#fc9272'))
+  stat_ellipse(aes(group = ionizing_radiation), type = 'norm') + 
+  scale_color_manual(
+    values = c('Sham-irradiated' = '#6baed6', 'Irradiated with 16 O' = '#fc9272'),
+    labels = c('Sham-irradiated' = 'Non-irradiated', 'Irradiated with 16 O' = 'Irradiated')
+  )
 
 gg_pcoa_unifrac
- 
+
 #save the unifrac plot
 ggsave("unwunifrac_beta_diversity.png", plot = gg_pcoa_unifrac, width = 8, height = 6, dpi = 300, device = 'png')
 
