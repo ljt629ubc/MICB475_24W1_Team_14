@@ -434,7 +434,8 @@ ggsave("phylogenetic_diversity_plot.png", plot = plot.pd, width = 8, height = 6,
 beta_dm <- distance(radseq_rare, method='unifrac')
 #perform pcoa on distance matrix
 pcoa_unifrac <- ordinate(radseq_rare, method="PCoA", distance = beta_dm)
-
+#permanova_test
+beta_sig <-adonis2(beta_dm ~ sample_data(radseq_rare)$ionizing_radiation)
 #plot it making sure colours match from faiths plot
 gg_pcoa_unifrac <-plot_ordination(radseq_rare, pcoa_unifrac, color = 'ionizing_radiation') +
   geom_point(size = 2, alpha = 0.9) +
