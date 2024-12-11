@@ -482,3 +482,80 @@ core_isa_prez$Order <- gsub("^o__", "", core_isa_prez$Order)
 core_isa_prez$Family <- gsub("^f__", "", core_isa_prez$Family)
 core_isa_prez$Genus <- gsub("^g__", "", core_isa_prez$Genus)
 core_isa_prez$Species <- gsub("^s__", "", core_isa_prez$Species)
+
+### Random Forest Model ###
+
+# Based on this guide: https://www.r-bloggers.com/2021/04/random-forest-in-r/
+
+# Load library
+library(randomForest)
+library(caret)
+
+#### Make model using the 9 taxa ####
+# Load in data that has the ASVs as columns with their counts and the metadata column of interest per sample but remove sample_id
+rf <- "rf_class.csv"
+rf_data <- read_csv(rf)
+
+#Select for 9 predictor taxa
+rf_coreisa_data <- rf_data %>%
+  select(f64f55b1af9b863086103dbf76e94e9f, `003a296ba4c55f34d62c224bda66f5a9`, 
+       `75bd82a728427b9fe0161be3977a9dee`, e3811dd729c742150d8c1c5f6e40c5a9,
+       c8738b09261f9ea1f3414e16667fac02, `226ab97195d19858d059fffaef17f5d7`,
+       `7b77d7b0590befdb68266063cee250a0`, `9e31424bebb25a100572229efc973274`,
+       bbc2bc36c756cc8b1509b77eba2ac381, ionizing_radiation) 
+colnames(rf_coreisa_data) <- make.names(colnames(rf_coreisa_data))
+
+# Ensure sample size is the same across categories ideally
+rf_coreisa_data$ionizing_radiation <- as.factor(rf_coreisa_data$ionizing_radiation)
+table(rf_coreisa_data$ionizing_radiation)
+
+# Lets start with random seed so the outcome will be repeatable and store train and test data.
+set.seed(222)
+ind <- sample(2, nrow(rf_coreisa_data), replace = TRUE, prob = c(0.7, 0.3))
+train <- rf_coreisa_data[ind==1,]
+test <- rf_coreisa_data[ind==2,]
+
+# Run the random forest code on the training data
+rf <- randomForest(ionizing_radiation~., data=train, proximity=TRUE)
+print(rf)
+
+# you can plot the model
+plot(rf)
+MDSplot(rf, train$ionizing_radiation)
+varImpPlot(rf)
+
+# prediction and confusion matrix
+p1 <- predict(rf, train)
+confusionMatrix(p1, train$ ionizing_radiation)
+
+# run prediction and confusion on the test data now
+p2 <- predict(rf, test)
+confusionMatrix(p2, test$ ionizing_radiation)
+
+#### Make model using all taxa ####
+all_data <- read.delim("rf_class.csv", sep = ",")
+
+# Ensure sample size is the same across categories ideally
+all_data$ionizing_radiation <- as.factor(all_data$ionizing_radiation)
+table(all_data$ionizing_radiation)
+  
+#Training and testing data
+train_all <- all_data[ind==1,]
+test_all <- all_data[ind==2,]
+
+# Run the random forest code on the training data
+rf_all <- randomForest(ionizing_radiation~., data=train_all, proximity=TRUE)
+print(rf_all)
+
+# you can plot the model
+plot(rf_all)
+MDSplot(rf_all, train_all$ionizing_radiation)
+varImpPlot(rf_all)
+
+# prediction and confusion matrix
+p1_all <- predict(rf_all, train_all)
+confusionMatrix(p1_all, train_all$ ionizing_radiation)
+
+# run prediction and confusion on the test data now
+p2_all <- predict(rf_all, test_all)
+confusionMatrix(p2_all, test_all$ ionizing_radiation)
