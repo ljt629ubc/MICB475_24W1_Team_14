@@ -3,11 +3,15 @@ Overview of Project 2 for Team 14 - Khadija, Michael, Jackson, Wendy, Jacob
 
 Meeting time is each Friday at 3:45pm
 ## Table of Contents
-   * [Meeting 1 - October 4th](#october-4th,-2024)
+   * [Meeting 1 - October 4th](#october-4th-2024)
    * [Meeting 2 - October 11th](#october-11th-2024)
-   * [Meeting 3 - October 18th](#October-18th,-2024)
-   * [Meeting 4 - October 25th](October-25th,-2024)
-   * [Meeting 5 - November_1st](November-1st,-2024)
+   * [Meeting 3 - October 18th](#october-18th-2024)
+   * [Meeting 4 - October 25th](#october-25th-2024)
+   * [Meeting 5 - November_1st](#november-1st-2024)
+   * [Meeting 6 - November_8th](#november-8th-2024)
+   * [Meeting 7 - November_22nd](#november-22nd-2024)
+   * [Meeting 8 - November_29th](#november-29th-2024)
+   * [Meeting 9 - December_6th](#december-6th-2024)
      
 # Meeting Agenda
 
@@ -401,7 +405,7 @@ Table 1: ISA
 Supplement 1: would be error plot from models (KNN and forest model) [error plot from models (KNN and forest model) → would be 4 panels].
 2: Dosage of radiation 
 
-## November 29nd, 2024
+## December 6th, 2024
 
 ### Agenda
 1. General questions and advice regarding manuscript
