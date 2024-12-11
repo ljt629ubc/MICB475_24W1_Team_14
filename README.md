@@ -410,7 +410,7 @@ Supplement 1: would be error plot from models (KNN and forest model) [error plot
 ### Agenda
 1. General questions and advice regarding manuscript
 
-## November 29nd, 2024 Meeting
+## December 6th, 2024 Meeting
 No pre-reading of manuscript draft offered.  
 
 In manuscript, explain "why prediction model?" Then go into why you were interested in taxa predictive of radiation, specifically.    
