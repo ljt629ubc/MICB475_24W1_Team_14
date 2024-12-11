@@ -10,6 +10,9 @@ library(phyloseq)
 library(indicspecies)
 library(microbiome)
 library(ggVennDiagram)
+library(picante)
+library(ggpubr)
+
 
 #file path for loadding data 
 metafp <- "radiation_lab_metadata.txt"
@@ -28,8 +31,7 @@ otu_mat <- as.matrix(otu[, -1])
 rownames(otu_mat) <- otu$`#OTU ID`  
 OTU <- otu_table(otu_mat, taxa_are_rows = TRUE)  
 
-
-#### Format sample metadata ####
+#### Format sample metadata #### properly
 # Save everything except sampleid as new data frame
 samp_df <- as.data.frame(meta[,-1])
 # Make sampleids the rownames
@@ -38,15 +40,19 @@ rownames(samp_df)<- meta$'sample-id'
 SAMP <- sample_data(samp_df)
 
 
-
-# Expand taxonomy into separate columns for each taxonomic rank
-taxonomy_expanded <- tax %>%
-  separate(Taxon, into = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"), sep = "; ", fill = "right")  # Ensure there's a space after the semicolon
-
-# Convert expanded taxonomy to a matrix
-taxonomy_mat <- as.matrix(taxonomy_expanded[, -1])  
-rownames(taxonomy_mat) <- taxonomy_expanded$`Feature ID`  
-TAX <- tax_table(taxonomy_mat) 
+#### Formatting taxonomy ####
+# Convert taxon strings to a table with separate taxa rank columns
+tax_mat <- tax %>% select(-Confidence)%>%
+  separate(col=Taxon, sep="; "
+           , into = c("Domain","Phylum","Class","Order","Family","Genus","Species")) %>%
+  as.matrix() # Saving as a matrix
+# Save everything except feature IDs 
+tax_mat <- tax_mat[,-1]
+# Make sampleids the rownames
+rownames(tax_mat) <- tax$`Feature ID`
+# Make taxa table
+TAX <- tax_table(tax_mat)
+class(TAX)
 
 #phyloseq object
 radseq <- phyloseq(OTU, SAMP, TAX, phylotree)
@@ -76,7 +82,6 @@ View(res)
 
 write.csv(res, "filtered_radlab_isa.csv", row.names = FALSE)
 
-
 #CORE MICROBIOME
 radseq_rad <- subset_samples(radseq_RA, `ionizing_radiation`=="Irradiated with 16 O")
 radseq_sham <- subset_samples(radseq_RA, `ionizing_radiation`=="Sham-irradiated")
@@ -93,38 +98,40 @@ tax_table(prune_taxa(rad_ASVs,radseq))
 prune_taxa(rad_ASVs,radseq_RA) %>% 
   plot_bar(fill="Species") + 
   facet_wrap(.~`ionizing_radiation`, scales ="free")
+
 prune_taxa(sham_ASVs,radseq_RA) %>% 
   plot_bar(fill="Species") + 
   facet_wrap(.~`ionizing_radiation`, scales ="free")
 
 
-sham_list <- core_members(radseq_sham , detection=0.001, prevalence = 0.10)
-rad_list <- core_members(radseq_rad, detection=0.001, prevalence = 0.10)
+sham_list <- core_members(radseq_sham , detection=0.001, prevalence = 0.1)
+rad_list <- core_members(radseq_rad, detection=0.001, prevalence = 0.1)
 
 radlab_list_full <- list(Sham = sham_list, Radiation = rad_list)
 
 # Create a Venn diagram using all the ASVs shared and unique to radiation exposure
 first_venn <- ggVennDiagram(x = radlab_list_full)
-
+first_venn
 
 ggsave("venn_radlab.png", first_venn)
 
+
 # Extract ASVs unique to radiation exposure 
 rad_unique <- setdiff(rad_list, sham_list)
-rad_unique
 
-# convert rad_unique to dataframe
+
+# convert rad_unique list to datafram
 core_rad_unique_df <- data.frame(rad_unique)
 colnames(core_rad_unique_df)[1] <- "ASV"
 
-#create dataframe with only indicators of radiation
+#create df with only indicators of radiation from isa
 rad_isa <- res %>%
   filter(`s.Irradiated with 16 O` == 1)
 
 #inner join to select for ASVs that are in both
 core_isa_rad <- inner_join(core_rad_unique_df, rad_isa, by = "ASV")
 
-#save asv 
+#same asv 
 write.csv(core_isa_rad , "core_isa_radlab.csv", row.names = FALSE)
 
 
