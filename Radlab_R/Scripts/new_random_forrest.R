@@ -94,9 +94,9 @@ train_test_random_subset <- function(seed_val) {
   return(list(accuracy = accuracy_random, taxa = random_taxa))
 }
 
-# Run the function 30 times with different seeds
+# Run the function 200 times with different seeds
 set.seed(123)
-seed_values <- sample(1000:9999, 30)
+seed_values <- sample(1000:9999, 200)
 random_results <- lapply(seed_values, train_test_random_subset)
 
 # Extract accuracies
@@ -104,9 +104,9 @@ random_accuracies <- sapply(random_results, function(x) x$accuracy)
 
 # Create data frame for plotting
 plot_data <- data.frame(
-  Model = c("Indicator Taxa", "All Other Taxa", paste0("Random Set ", 1:30)),
+  Model = c("Indicator Taxa", "All Other Taxa", paste0("Random Set ", 1:200)),
   Accuracy = c(accuracy_indicator, accuracy_all_other, random_accuracies),
-  Type = c("Indicator", "All Others", rep("Random", 30))
+  Type = c("Indicator", "All Others", rep("Random", 200))
 )
 
 # Sort the random combinations by accuracy
@@ -120,7 +120,7 @@ ggplot(plot_data, aes(x = Model, y = Accuracy, fill = Type)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
   labs(title = "Random Forest Model Accuracy Comparison",
-       subtitle = "9 Indicator Taxa vs All Other Taxa vs 30 Random Sets of 9 Taxa",
+       subtitle = "9 Indicator Taxa vs All Other Taxa vs 200 Random Sets of 9 Taxa",
        x = "Model",
        y = "Accuracy") +
   scale_fill_manual(values = c("Indicator" = "red", "All Others" = "blue", "Random" = "gray")) +
@@ -133,10 +133,94 @@ median_random_accuracy <- median(random_accuracies)
 max_random_accuracy <- max(random_accuracies)
 min_random_accuracy <- min(random_accuracies)
 
-# Print results
-cat("Accuracy of model with 9 indicator taxa:", accuracy_indicator, "\n")
-cat("Accuracy of model with all other taxa:", accuracy_all_other, "\n")
-cat("Mean accuracy of 30 random sets of 9 taxa:", mean_random_accuracy, "\n")
-cat("Median accuracy of 30 random sets of 9 taxa:", median_random_accuracy, "\n")
-cat("Maximum accuracy of random sets:", max_random_accuracy, "\n")
-cat("Minimum accuracy of random sets:", min_random_accuracy, "\n")
+#Create better plot
+library(ggplot2)
+
+# Create a data frame for the random accuracies only
+random_accuracy_df <- data.frame(
+  Accuracy = random_accuracies,
+  Type = "Random Sets"
+)
+
+# Calculate summary statistics for plotting
+random_summary <- data.frame(
+  Type = "Random Sets",
+  Mean = mean(random_accuracies),
+  Median = median(random_accuracies),
+  Q1 = quantile(random_accuracies, 0.25),
+  Q3 = quantile(random_accuracies, 0.75),
+  Min = min(random_accuracies),
+  Max = max(random_accuracies),
+  SD = sd(random_accuracies)
+)
+
+# Create a data frame for comparison models
+comparison_models <- data.frame(
+  Type = c("Indicator Taxa", "All Other Taxa"),
+  Accuracy = c(accuracy_indicator, accuracy_all_other)
+)
+
+# Create the box plot with error bars
+ggplot() +
+  # Random set box plot
+  geom_boxplot(data = random_accuracy_df, 
+               aes(x = Type, y = Accuracy, fill = Type),
+               width = 0.5,
+               outlier.shape = 16,
+               outlier.size = 2,
+               outlier.alpha = 0.7) +
+  # Add error bars
+  geom_errorbar(data = random_summary,
+                aes(x = Type, 
+                    ymin = Mean - SD, 
+                    ymax = Mean + SD),
+                width = 0.2,
+                size = 1) +
+  # Add points for indicator taxa and all taxa
+  geom_point(data = comparison_models,
+             aes(x = Type, y = Accuracy, color = Type),
+             size = 4,
+             position = position_dodge(width = 0.75)) +
+  # Add text labels and lines
+  geom_text(data = comparison_models,
+            aes(x = Type, y = Accuracy, label = round(Accuracy, 3)),
+            hjust = -0.5,
+            vjust = 0.5) +
+  geom_hline(yintercept = accuracy_indicator, 
+             linetype = "dashed", 
+             color = "red") +
+  geom_hline(yintercept = accuracy_all_other, 
+             linetype = "dashed", 
+             color = "blue") +
+  
+  
+  labs(title = "Comparison of Random Forest Model Accuracies",
+       subtitle = paste("Random Sets (n=200) vs Indicator Taxa vs All Other Taxa\n",
+                        "Error bars show mean ± standard deviation"),
+       x = "",
+       y = "Accuracy") +
+  scale_fill_manual(values = c("Random Sets" = "gray80", 
+                               "Indicator Taxa" = "red", 
+                               "All Other Taxa" = "blue")) +
+  scale_color_manual(values = c("Indicator Taxa" = "red", 
+                                "All Other Taxa" = "blue")) +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold"),
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 14)) +
+  ylim(min(min(random_accuracies), accuracy_all_other, accuracy_indicator) - 0.05,
+       max(max(random_accuracies), accuracy_all_other, accuracy_indicator) + 0.05)
+
+# create summary
+summary_table <- data.frame(
+  Model = c("Indicator Taxa", "All Other Taxa", "Random Sets (Mean)", "Random Sets (Median)",
+            "Random Sets (Min)", "Random Sets (Max)", "Random Sets (SD)"),
+  Accuracy = c(accuracy_indicator, accuracy_all_other, 
+               mean(random_accuracies), median(random_accuracies),
+               min(random_accuracies), max(random_accuracies), 
+               sd(random_accuracies))
+)
+
+
+print(summary_table)
