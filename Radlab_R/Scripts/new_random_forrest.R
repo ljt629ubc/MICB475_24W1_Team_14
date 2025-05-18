@@ -22,7 +22,7 @@ rf_indicator_data <- rf_data %>%
 # Set seed for reproducibility
 set.seed(222)
 
-# Create training and testing sets for indicator taxa model using the sample method from first code block
+# Create training and testing sets for indicator taxa model using sample 
 ind_indicator <- sample(2, nrow(rf_indicator_data), replace = TRUE, prob = c(0.7, 0.3))
 train_indicator <- rf_indicator_data[ind_indicator == 1, ]
 test_indicator <- rf_indicator_data[ind_indicator == 2, ]
