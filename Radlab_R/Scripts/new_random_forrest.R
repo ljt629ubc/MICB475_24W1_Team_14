@@ -5,7 +5,7 @@ library(caret)
 # Load data
 rf_data <- read.csv("rf_class.csv")
 
-# Convert column names to make them R-friendly
+# Convert column names
 colnames(rf_data) <- make.names(colnames(rf_data))
 
 # Identify the 9 indicator taxa columns
